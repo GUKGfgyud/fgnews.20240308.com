@@ -337,10 +337,10 @@
             float: right;
         }
 
-        /* 专题/图片推荐 */
+        /* 专题/图片推荐 - 四列 */
         .feature-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
             gap: 16px;
             margin-bottom: 24px;
         }
@@ -1120,7 +1120,7 @@
                     </div>
                 </div>
 
-                <!-- 专题/图片推荐 -->
+                <!-- 专题/图片/视频/采访 四栏 -->
                 <div class="feature-grid">
                     <div class="feature-card" onclick="showUnavailable()">
                         <div class="card-img">文件已损坏</div>
@@ -1139,6 +1139,13 @@
                         <div class="card-label">视频</div>
                         <div class="card-title">警方新闻发布会</div>
                         <div class="card-desc">案件最新进展通报</div>
+                    </div>
+                    <!-- 新增采访栏 -->
+                    <div class="feature-card" onclick="showUnavailable()">
+                        <div class="card-img">文件已损坏</div>
+                        <div class="card-label">采访</div>
+                        <div class="card-title">遇害少年邻居专访</div>
+                        <div class="card-desc">邻里眼中的郑■■ · 案发前后</div>
                     </div>
                 </div>
 
@@ -1401,7 +1408,7 @@
 
                 <!-- 存档提示（父母案页面） -->
                 <div class="archive-notice">
-                    <span>正在查看的是F国新闻<br>2023年2月13日页面存档</span>
+                    <span>正在查看的是F国新闻<br>2023年2月13日的页面存档</span>
                 </div>
             </div>
         </div>
