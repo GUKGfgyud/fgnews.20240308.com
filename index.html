@@ -444,6 +444,7 @@
         }
         .sidebar .side-block .side-item .text {
             flex: 1;
+            cursor: pointer;
         }
         .sidebar .side-block .side-item .time-sm {
             font-size: 12px;
@@ -805,6 +806,23 @@
             color: #ff0000;
         }
 
+        /* ---------- 后续报道页面 ---------- */
+        .followup-news .headline-block {
+            border-left-color: #cc0000;
+        }
+        .followup-news .sub p {
+            margin-bottom: 14px;
+        }
+        .no-underline {
+            border-bottom: none !important;
+        }
+        .no-underline:hover {
+            border-bottom: none !important;
+        }
+        .no-bold {
+            font-weight: normal !important;
+        }
+
         /* ---------- 响应式 ---------- */
         @media (max-width: 1024px) {
             .news-body {
@@ -935,6 +953,17 @@
             color: #cc0000;
             border-color: #cc0000;
         }
+
+        /* 无样式链接，用于侧边栏普通列表项 */
+        .plain-link {
+            cursor: pointer;
+            color: #1a1a1a;
+            text-decoration: none;
+            font-weight: normal;
+        }
+        .plain-link:hover {
+            color: #cc0000;
+        }
     </style>
 </head>
 <body>
@@ -946,7 +975,7 @@
     <!-- ============================================================ -->
     <div class="page visible" id="newsPage">
 
-        <!-- 顶部栏（已移除 English、WAP版、RSS） -->
+        <!-- 顶部栏 -->
         <div class="top-bar">
             <div class="left">
                 <a href="#" onclick="showUnavailable()">融媒体矩阵</a>
@@ -1023,7 +1052,7 @@
 
                 <!-- 头条 -->
                 <div class="headline-block">
-                    <div class="label">★ 头条</div>
+                    <div class="label" onclick="showTrackEasterEgg()" style="cursor:pointer;">★ 头条</div>
                     <h2>卡萨维13岁少年家中遇害 警方全力侦办</h2>
                     <div class="sub">
                         <p>2024年3月7日晚间，F国南部城市卡萨维，一名13岁少年在其住所内被发现死亡。警方初步判断为他杀，目前凶手仍在逃，尚未锁定嫌疑人。</p>
@@ -1101,7 +1130,7 @@
                         <div class="news-list-item"><span class="hl">·</span> 卡萨维驻军加强安保，回应近期武装冲突 <span class="time">17:32</span></div>
                         <div class="news-list-item"><span class="hl">·</span> F国议会通过新枪支管控法案草案 <span class="time">16:48</span></div>
                         <div class="news-list-item"><span class="hl">·</span> 南部城市治安问题引民众担忧 <span class="time">15:20</span></div>
-                        <div class="news-list-item"><span class="hl">·</span> <span class="hidden-link" onclick="switchToParents()">金■■</span>父母殉职案一年后仍悬而未决 <span class="time">14:05</span></div>
+                        <div class="news-list-item"><span class="hl">·</span> <span class="no-underline no-bold" onclick="switchToFollowUp()" style="cursor:pointer;">金■■父母殉职案一年后仍悬而未决</span> <span class="time">14:05</span></div>
                         <div class="news-list-item"><span class="hl">·</span> 卡萨维第三中学为遇难学生举行追思会 <span class="time">12:30</span></div>
                         <div class="news-list-item"><span class="hl">·</span> 军方公布2023年卡萨维冲突详细报告 <span class="time">11:15</span></div>
                     </div>
@@ -1140,7 +1169,6 @@
                         <div class="card-title">警方新闻发布会</div>
                         <div class="card-desc">案件最新进展通报</div>
                     </div>
-                    <!-- 新增采访栏 -->
                     <div class="feature-card" onclick="showUnavailable()">
                         <div class="card-img">文件已损坏</div>
                         <div class="card-label">采访</div>
@@ -1157,9 +1185,9 @@
                 <!-- 热门排行 -->
                 <div class="side-block">
                     <div class="block-title">📊 新闻排行</div>
-                    <div class="side-item"><span class="num">1</span><span class="text">卡萨维13岁少年遇害案引发关注</span></div>
+                    <div class="side-item"><span class="num">1</span><span class="text" onclick="switchToConcern()">卡萨维13岁少年遇害案引发关注</span></div>
                     <div class="side-item"><span class="num">2</span><span class="text">F国议会通过新枪支管控法案</span></div>
-                    <div class="side-item"><span class="num">3</span><span class="text"><span class="hidden-link" onclick="switchToParents()">金■■</span>父母殉职案一年回顾</span></div>
+                    <div class="side-item"><span class="num">3</span><span class="text" onclick="switchToReview()">金■■父母殉职案一年回顾</span></div>
                     <div class="side-item"><span class="num">4</span><span class="text">南部城市治安问题引民众担忧</span></div>
                     <div class="side-item"><span class="num">5</span><span class="text">卡萨维驻军加强安保措施</span></div>
                 </div>
@@ -1167,11 +1195,11 @@
                 <!-- 最新消息 -->
                 <div class="side-block">
                     <div class="block-title">🕒 最新消息</div>
-                    <div class="side-item"><span class="tag">追踪</span><span class="text" onclick="showTrackEasterEgg()">死者父母均为现役军人，家庭背景引关注</span><span class="time-sm">18:20</span></div>
+                    <div class="side-item"><span class="tag" onclick="showTrackEasterEgg()" style="cursor:pointer;">追踪</span><span class="text" onclick="showTrackEasterEgg()">死者父母均为现役军人，家庭背景引关注</span><span class="time-sm">18:20</span></div>
                     <div class="side-item"><span class="tag">最新</span><span class="text" onclick="showUnavailable()">警方扩大搜索范围，调取周边监控</span><span class="time-sm">17:45</span></div>
                     <div class="side-item"><span class="tag">评论</span><span class="text" onclick="showUnavailable()">当枪声成为日常，我们还能守住什么？</span><span class="time-sm">17:10</span></div>
                     <div class="side-item"><span class="tag">快讯</span><span class="text" onclick="showUnavailable()">法医已完成初步尸检</span><span class="time-sm">16:30</span></div>
-                    <div class="side-item"><span class="tag">追踪</span><span class="text" onclick="showUnavailable()">学校心理辅导团队介入</span><span class="time-sm">15:50</span></div>
+                    <div class="side-item"><span class="tag" onclick="showTrackEasterEgg()" style="cursor:pointer;">追踪</span><span class="text" onclick="showTrackEasterEgg()">学校心理辅导团队介入</span><span class="time-sm">15:50</span></div>
                 </div>
 
                 <!-- 相关推荐 -->
@@ -1295,7 +1323,7 @@
     <!-- ===== 父母案新闻页面（2023年） ===== -->
     <!-- ============================================================ -->
     <div class="page parents-news" id="parentsPage">
-        <span class="back-link" onclick="switchToNews()" style="display:inline-block;margin:16px 32px 0 32px;font-size:14px;color:#1a3c6e;cursor:pointer;border-bottom:1px solid transparent;transition:border-color 0.2s;">← 返回新闻</span>
+        <span class="back-link" onclick="switchToNews()">← 返回新闻</span>
 
         <div class="header" style="padding:14px 32px 10px 32px;">
             <div class="logo-area">
@@ -1304,6 +1332,10 @@
             </div>
             <div class="header-right">
                 <span class="date">2023年2月13日 · 星期一</span>
+                <div class="search-box">
+                    <input type="text" placeholder="搜 索" id="searchInputParents" onkeypress="if(event.key==='Enter'){handleSearchParents();}" />
+                    <button onclick="handleSearchParents()">搜索</button>
+                </div>
                 <span class="weather">🌧️ 卡萨维 8°C</span>
             </div>
         </div>
@@ -1338,9 +1370,9 @@
         <div class="news-body">
             <div class="main-content">
                 <div class="headline-block" style="border-left-color:#cc0000;">
-                    <div class="label">★ 头条</div>
+                    <div class="label" onclick="showTrackEasterEgg()" style="cursor:pointer;">★ 头条</div>
                     <h2>卡萨维街头武装冲突致两名军人殉职</h2>
-                    <div class="sub">
+                   <div class="sub">
     <p>2023年2月13日下午14时17分许，F国南部城市卡萨维市中心街区发生一起严重武装冲突，造成两名现役军人殉职，另有五名平民受伤。警方已封锁现场，并展开全面调查。</p>
     <p>据军方通报，殉职军人系卡萨维驻军第三步兵营的<strong>金■■上士</strong>与医疗分队的<strong>金■■中士</strong>（夫妇）。事发时，二人正在执行例行巡逻任务，行至卡萨维中央大道与安和路交叉口时，突然遭到不明武装分子的伏击。交火持续约10分钟，两名军人因伤势过重不治身亡。五名受伤平民已送医救治，目前无生命危险。</p>
     <p>据悉，金■■夫妇育有一子，事发时其子<strong>金■■</strong>（时年11岁）恰好在场，但未受伤。据目击者称，该儿童在冲突爆发后躲入附近建筑内避险，情绪稳定。军方已安排心理辅导人员对其进行安抚。</p>
@@ -1400,13 +1432,13 @@
                     <div class="block-title">📊 相关排行</div>
                     <div class="side-item"><span class="num">1</span><span class="text">卡萨维武装冲突致军人殉职</span></div>
                     <div class="side-item"><span class="num">2</span><span class="text">军方承诺加强安保措施</span></div>
-                    <div class="side-item"><span class="num">3</span><span class="text"><span class="hidden-link" onclick="switchToNews()">一年后 · 13岁少年遇害案</span></span></div>
+                    <div class="side-item"><span class="num">3</span><span class="text"><span class="hidden-link" onclick="switchToFollowUp()">一年后 · 案件调查仍无突破</span></span></div>
                     <div class="side-item"><span class="num">4</span><span class="text">市民自发悼念殉职军人</span></div>
                 </div>
 
                 <div class="side-block">
                     <div class="block-title">🕒 最新进展</div>
-                    <div class="side-item"><span class="tag">追踪</span><span class="text" onclick="showParentsTrackEasterEgg()">警方调取监控，弹道痕迹比对中</span><span class="time-sm">18:30</span></div>
+                    <div class="side-item"><span class="tag" onclick="showTrackEasterEgg()" style="cursor:pointer;">追踪</span><span class="text" onclick="showTrackEasterEgg()">警方调取监控，弹道痕迹比对中</span><span class="time-sm">18:30</span></div>
                     <div class="side-item"><span class="tag">最新</span><span class="text" onclick="parentsNavClick(this)">军方：袭击为有预谋武装挑衅</span><span class="time-sm">17:50</span></div>
                     <div class="side-item"><span class="tag">评论</span><span class="text" onclick="parentsNavClick(this)">暴力从不只伤害直接目标</span><span class="time-sm">17:00</span></div>
                     <div class="side-item"><span class="tag">快讯</span><span class="text" onclick="parentsNavClick(this)">目击者提供新线索</span><span class="time-sm">16:20</span></div>
@@ -1434,6 +1466,506 @@
         <div id="parentsPopupContainer"></div>
     </div>
 
+    <!-- ============================================================ -->
+    <!-- ===== 后续报道页面（金父母案一年后） ===== -->
+    <!-- ============================================================ -->
+    <div class="page followup-news" id="followUpPage">
+        <span class="back-link" onclick="switchToNews()" style="display:inline-block;margin:16px 32px 0 32px;font-size:14px;color:#1a3c6e;cursor:pointer;border-bottom:1px solid transparent;transition:border-color 0.2s;">← 返回新闻</span>
+
+        <div class="header" style="padding:14px 32px 10px 32px;">
+            <div class="logo-area">
+                <span class="red-dot"></span>
+                <h1 style="font-size:32px;"><span>F</span>国新闻</h1>
+            </div>
+            <div class="header-right">
+                <span class="date">2024年3月8日 · 星期六</span>
+                <div class="search-box">
+                    <input type="text" placeholder="搜 索" id="searchInputFollow" onkeypress="if(event.key==='Enter'){handleSearchFollow();}" />
+                    <button onclick="handleSearchFollow()">搜索</button>
+                </div>
+                <span class="weather">☀️ 卡萨维 12°C</span>
+            </div>
+        </div>
+
+        <div class="main-nav" style="padding:0 32px;">
+            <span class="nav-item active" onclick="showUnavailable()">要闻</span>
+            <span class="divider">|</span>
+            <span class="nav-item" onclick="showUnavailable()">社会</span>
+            <span class="divider">|</span>
+            <span class="nav-item" onclick="showUnavailable()">国际</span>
+            <span class="divider">|</span>
+            <span class="nav-item" onclick="showUnavailable()">财经</span>
+            <span class="divider">|</span>
+            <span class="nav-item" onclick="showUnavailable()">战事</span>
+            <span class="divider">|</span>
+            <span class="nav-item" onclick="showUnavailable()">法治</span>
+            <span class="divider">|</span>
+            <span class="nav-item" onclick="showUnavailable()">健康</span>
+            <span class="nav-more" onclick="showUnavailable()">更多↓</span>
+        </div>
+
+        <div class="sub-nav">
+            <span class="sub-item active" onclick="showUnavailable()">卡萨维</span>
+            <span class="divider">|</span>
+            <span class="sub-item" onclick="showUnavailable()">南部</span>
+            <span class="divider">|</span>
+            <span class="sub-item" onclick="showUnavailable()">深度</span>
+            <span class="divider">|</span>
+            <span class="sub-item" onclick="showUnavailable()">调查</span>
+        </div>
+
+        <div class="news-body">
+            <div class="main-content">
+                <div class="headline-block">
+                    <div class="label" onclick="showTrackEasterEgg()" style="cursor:pointer;">★ 追踪报道</div>
+                    <h2>金■■父母殉职案一年后：悬而未决的真相</h2>
+                    <div class="sub">
+                        <p><strong>本报记者 朴■■</strong> 卡萨维报道</p>
+
+                        <p>2023年2月13日，卡萨维中央大道与安和路交叉口的一声枪响，撕裂了两个家庭。一年过去了，那场导致两名军人殉职的武装冲突，至今仍未找到真凶。</p>
+
+                        <p>据军方最新通报，案件调查已陷入僵局。警方虽然调取了周边所有监控，并对弹道痕迹进行了多次比对分析，但始终未能锁定嫌疑人的具体身份。军方发言人表示：“我们仍在追查，但目前没有新的突破性进展。”</p>
+
+                        <p>然而，这场悲剧的影响远未结束。殉职军人金■■上士与金■■中士的独子<strong>金■■</strong>（现年12岁），在父母殉职后休学三个月，复课后性情大变。据其班主任透露，金■■变得沉默寡言，成绩大幅下滑，与同学的关系也逐渐疏远。“他以前是个开朗的孩子，现在……几乎不说话了。”班主任李■■说。</p>
+
+                        <p>更令人担忧的是，金■■的心理状况似乎仍在恶化。校方多次建议其亲属带他接受专业心理辅导，但据知情人士透露，金■■拒绝了所有帮助。“他把自己关起来，不让任何人靠近。”一位不愿透露姓名的亲属表示。</p>
+
+                        <p>与此同时，另一名目击者——当时在场的同龄少年<strong>郑■■</strong>（现年13岁）——在此案发生一年后，于2024年3月7日在家中遇害，至今凶手仍在逃。这两起案件之间是否存在关联，已成为公众关注的焦点。</p>
+
+                        <p>卡萨维市长在近日的记者会上表示：“两起案件发生在同一街区，涉及同一批目击者，我们无法排除关联性。警方已成立专案组，对两案进行并案调查。”</p>
+
+                        <p>然而，对于受害者家属而言，等待仍是漫长的。金■■的亲属表示：“我们只想知道真相。是谁夺走了他们的生命？为什么？一年了，没有人给我们答案。”</p>
+
+                        <p>本台将持续关注事件进展，并在第一时间为您带来最新报道。</p>
+
+                        <p style="margin-top:16px; font-size:14px; color:#888;">相关报道：<span class="plain-link" onclick="switchToParents()">2023年2月13日 · 卡萨维街头武装冲突</span> | <span class="plain-link" onclick="switchToNews()">卡萨维13岁少年遇害案</span></p>
+                    </div>
+                </div>
+
+                <!-- 后续报道的双栏新闻 -->
+                <div class="news-grid">
+                    <div class="news-column">
+                        <div class="col-title">
+                            <span>案件进展</span>
+                            <span class="more" onclick="showUnavailable()">更多 →</span>
+                        </div>
+                        <div class="news-list-item"><span class="hl">·</span> 专案组已成立，两案并案调查 <span class="time">17:20</span></div>
+                        <div class="news-list-item"><span class="hl">·</span> 弹道比对报告：两案使用同一类型枪械 <span class="time">16:10</span></div>
+                        <div class="news-list-item"><span class="hl">·</span> 金■■精神状态持续恶化，拒绝心理干预 <span class="time">15:00</span></div>
+                        <div class="news-list-item"><span class="hl">·</span> 卡萨维市民自发组织烛光守夜活动 <span class="time">14:20</span></div>
+                    </div>
+
+                    <div class="news-column">
+                        <div class="col-title">
+                            <span>社会反响</span>
+                            <span class="more" onclick="showUnavailable()">更多 →</span>
+                        </div>
+                        <div class="news-list-item"><span class="hl">·</span> 舆论呼吁：要求政府公开案件调查进展 <span class="time">18:30</span></div>
+                        <div class="news-list-item"><span class="hl">·</span> 心理专家：目击儿童创伤后应激障碍不容忽视 <span class="time">17:40</span></div>
+                        <div class="news-list-item"><span class="hl">·</span> 卡萨维社区发起“为金■■”捐款活动 <span class="time">16:50</span></div>
+                        <div class="news-list-item"><span class="hl">·</span> 军方承诺重新梳理案件证据链 <span class="time">15:30</span></div>
+                    </div>
+                </div>
+
+                <div class="feature-grid" style="grid-template-columns:1fr 1fr 1fr;">
+                    <div class="feature-card" onclick="showUnavailable()">
+                        <div class="card-img">文件已损坏</div>
+                        <div class="card-label">专题</div>
+                        <div class="card-title">两案关联调查报告</div>
+                        <div class="card-desc">弹道比对 · 时间线 · 关键人物</div>
+                    </div>
+                    <div class="feature-card" onclick="showUnavailable()">
+                        <div class="card-img">文件已损坏</div>
+                        <div class="card-label">访谈</div>
+                        <div class="card-title">心理专家谈儿童创伤</div>
+                        <div class="card-desc">如何帮助目击暴力事件的儿童</div>
+                    </div>
+                    <div class="feature-card" onclick="showUnavailable()">
+                        <div class="card-img">文件已损坏</div>
+                        <div class="card-label">评论</div>
+                        <div class="card-title">当枪声成为日常</div>
+                        <div class="card-desc">一个国家的伤口何时才能愈合</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 后续报道侧边栏 -->
+            <div class="sidebar">
+                <div class="side-block">
+                    <div class="block-title">📊 相关排行</div>
+                    <div class="side-item"><span class="num">1</span><span class="text">金父母案一年后仍无突破</span></div>
+                    <div class="side-item"><span class="num">2</span><span class="text"><span class="plain-link" onclick="switchToNews()">卡萨维13岁少年遇害案</span></span></div>
+                    <div class="side-item"><span class="num">3</span><span class="text"><span class="plain-link" onclick="switchToParents()">2023年卡萨维武装冲突回顾</span></span></div>
+                    <div class="side-item"><span class="num">4</span><span class="text">目击儿童心理问题引关注</span></div>
+                </div>
+
+                <div class="side-block">
+                    <div class="block-title">🕒 最新动态</div>
+                    <div class="side-item"><span class="tag" onclick="showTrackEasterEgg()" style="cursor:pointer;">追踪</span><span class="text" onclick="showUnavailable()">专案组公布案件时间线</span><span class="time-sm">18:40</span></div>
+                    <div class="side-item"><span class="tag">最新</span><span class="text" onclick="showUnavailable()">军方：不排除并案调查可能</span><span class="time-sm">17:30</span></div>
+                    <div class="side-item"><span class="tag">评论</span><span class="text" onclick="showUnavailable()">一个国家的伤口</span><span class="time-sm">16:50</span></div>
+                    <div class="side-item"><span class="tag">快讯</span><span class="text" onclick="showUnavailable()">市长敦促警方加快调查</span><span class="time-sm">15:20</span></div>
+                </div>
+
+                <div class="side-block">
+                    <div class="block-title">📌 相关推荐</div>
+                    <div class="side-item"><span class="text" onclick="showUnavailable()">▸ 两案并案调查时间线</span></div>
+                    <div class="side-item"><span class="text" onclick="showUnavailable()">▸ 创伤后儿童心理干预指南</span></div>
+                    <div class="side-item"><span class="text" onclick="showUnavailable()">▸ 卡萨维社区安全现状报告</span></div>
+                </div>
+
+                <!-- 存档提示 -->
+                <div class="archive-notice">
+                    <span>正在查看的是F国新闻<br>2024年3月8日的页面存档</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bar" style="padding:12px 32px;">
+            <div class="links">
+                <a href="#" onclick="showUnavailable()">关于我们</a>
+                <a href="#" onclick="showUnavailable()">版权声明</a>
+                <a href="#" onclick="showUnavailable()">联系我们</a>
+            </div>
+            <div class="footer-right">
+                <span>© 2024 F国新闻 版权所有</span>
+                <span class="time-display" id="followUpTime">加载中...</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- ===== 关注报道页面（卡萨维13岁少年遇害案引发关注） ===== -->
+    <!-- ============================================================ -->
+    <div class="page followup-news" id="concernPage">
+        <span class="back-link" onclick="switchToNews()" style="display:inline-block;margin:16px 32px 0 32px;font-size:14px;color:#1a3c6e;cursor:pointer;border-bottom:1px solid transparent;transition:border-color 0.2s;">← 返回新闻</span>
+
+        <div class="header" style="padding:14px 32px 10px 32px;">
+            <div class="logo-area">
+                <span class="red-dot"></span>
+                <h1 style="font-size:32px;"><span>F</span>国新闻</h1>
+            </div>
+            <div class="header-right">
+                <span class="date">2024年3月8日 · 星期六</span>
+                <div class="search-box">
+                    <input type="text" placeholder="搜 索" id="searchInputConcern" onkeypress="if(event.key==='Enter'){handleSearchConcern();}" />
+                    <button onclick="handleSearchConcern()">搜索</button>
+                </div>
+                <span class="weather">☀️ 卡萨维 12°C</span>
+            </div>
+        </div>
+
+        <div class="main-nav" style="padding:0 32px;">
+            <span class="nav-item active" onclick="showUnavailable()">要闻</span>
+            <span class="divider">|</span>
+            <span class="nav-item" onclick="showUnavailable()">社会</span>
+            <span class="divider">|</span>
+            <span class="nav-item" onclick="showUnavailable()">国际</span>
+            <span class="divider">|</span>
+            <span class="nav-item" onclick="showUnavailable()">财经</span>
+            <span class="divider">|</span>
+            <span class="nav-item" onclick="showUnavailable()">战事</span>
+            <span class="divider">|</span>
+            <span class="nav-item" onclick="showUnavailable()">法治</span>
+            <span class="divider">|</span>
+            <span class="nav-item" onclick="showUnavailable()">健康</span>
+            <span class="nav-more" onclick="showUnavailable()">更多↓</span>
+        </div>
+
+        <div class="sub-nav">
+            <span class="sub-item active" onclick="showUnavailable()">卡萨维</span>
+            <span class="divider">|</span>
+            <span class="sub-item" onclick="showUnavailable()">南部</span>
+            <span class="divider">|</span>
+            <span class="sub-item" onclick="showUnavailable()">深度</span>
+            <span class="divider">|</span>
+            <span class="sub-item" onclick="showUnavailable()">评论</span>
+        </div>
+
+        <div class="news-body">
+            <div class="main-content">
+                <div class="headline-block">
+                    <div class="label" onclick="showTrackEasterEgg()" style="cursor:pointer;">★ 关注报道</div>
+                    <h2>卡萨维13岁少年遇害案引发社会广泛关注</h2>
+                    <div class="sub">
+                        <p><strong>本报记者 朴■■</strong> 卡萨维报道</p>
+
+                        <p>自2024年3月7日卡萨维13岁少年郑■■在家中遇害以来，该案件迅速引发社会各界广泛关注。民众对案件调查进展、枪支管控以及未成年人心理安全等问题的讨论持续升温。</p>
+
+                        <p>据警方最新通报，案件调查仍在进行中，但尚未锁定嫌疑人。警方已成立专案组，对案件进行全面梳理。警方发言人表示：“我们正在全力以赴，不放过任何一条线索。同时，我们也呼吁知情人士积极提供线索。”</p>
+
+                        <p>案件发生后，卡萨维市民自发组织多场守夜活动，悼念遇害少年。不少市民在安和路17号（死者住所）门前摆放鲜花和蜡烛，表达哀思。一位参与守夜的市民表示：“我们无法想象一个孩子在自己家中遭遇如此不幸。我们要求真相，更要求安全。”</p>
+
+                        <p>与此同时，F国全国范围内关于枪支管控的讨论再次被点燃。多名议员公开呼吁加强枪支管理，防止类似悲剧重演。有议员指出：“一个13岁的孩子在家中死于枪击，这本身就是一个国家的耻辱。我们必须采取行动。”</p>
+
+                        <p>教育界和心理学界也对本案表示深切关注。多位儿童心理专家指出，目睹暴力事件或失去同伴的青少年，容易产生严重的心理创伤，需要及时干预。卡萨维第三中学已启动心理辅导机制，为受影响的师生提供支持。</p>
+
+                        <p>此外，网络上的舆论热度也居高不下。社交媒体上，话题#卡萨维少年遇害#和#F国枪支管控#持续占据热搜榜。不少网友呼吁警方尽快破案，并对受害家庭表示慰问。也有网友对案件中的关键证人金■■表示同情，认为他“失去了父母，又失去了朋友”。</p>
+
+                        <p>本台将持续关注案件进展，并为您带来最新报道。</p>
+
+                        <p style="margin-top:16px; font-size:14px; color:#888;">相关报道：<span class="plain-link" onclick="switchToNews()">2024年3月8日 · 卡萨维13岁少年遇害案</span> | <span class="plain-link" onclick="switchToParents()">2023年2月13日 · 卡萨维街头武装冲突</span></p>
+                    </div>
+                </div>
+
+                <!-- 双栏新闻 -->
+                <div class="news-grid">
+                    <div class="news-column">
+                        <div class="col-title">
+                            <span>社会反响</span>
+                            <span class="more" onclick="showUnavailable()">更多 →</span>
+                        </div>
+                        <div class="news-list-item"><span class="hl">·</span> 卡萨维市民组织守夜活动 <span class="time">19:20</span></div>
+                        <div class="news-list-item"><span class="hl">·</span> 议员呼吁加强枪支管控 <span class="time">18:10</span></div>
+                        <div class="news-list-item"><span class="hl">·</span> 心理专家：创伤后干预刻不容缓 <span class="time">17:00</span></div>
+                        <div class="news-list-item"><span class="hl">·</span> 学校启动心理辅导机制 <span class="time">15:40</span></div>
+                    </div>
+
+                    <div class="news-column">
+                        <div class="col-title">
+                            <span>舆论聚焦</span>
+                            <span class="more" onclick="showUnavailable()">更多 →</span>
+                        </div>
+                        <div class="news-list-item"><span class="hl">·</span> 网友：要求尽快破案 <span class="time">18:50</span></div>
+                        <div class="news-list-item"><span class="hl">·</span> 话题#卡萨维少年遇害#登上热搜 <span class="time">17:30</span></div>
+                        <div class="news-list-item"><span class="hl">·</span> 对金■■的同情声持续高涨 <span class="time">16:40</span></div>
+                        <div class="news-list-item"><span class="hl">·</span> 社区发起“安全卡萨维”倡议 <span class="time">15:10</span></div>
+                    </div>
+                </div>
+
+                <div class="feature-grid" style="grid-template-columns:1fr 1fr 1fr;">
+                    <div class="feature-card" onclick="showUnavailable()">
+                        <div class="card-img">文件已损坏</div>
+                        <div class="card-label">访谈</div>
+                        <div class="card-title">社区安全现状调查</div>
+                        <div class="card-desc">市民眼中的卡萨维治安</div>
+                    </div>
+                    <div class="feature-card" onclick="showUnavailable()">
+                        <div class="card-img">文件已损坏</div>
+                        <div class="card-label">评论</div>
+                        <div class="card-title">枪声背后：一个国家的隐痛</div>
+                        <div class="card-desc">从个案到社会问题的反思</div>
+                    </div>
+                    <div class="feature-card" onclick="showUnavailable()">
+                        <div class="card-img">文件已损坏</div>
+                        <div class="card-label">调查</div>
+                        <div class="card-title">未成年人涉枪案件数据</div>
+                        <div class="card-desc">F国近十年青少年枪击统计</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 关注报道侧边栏 -->
+            <div class="sidebar">
+                <div class="side-block">
+                    <div class="block-title">📊 相关排行</div>
+                    <div class="side-item"><span class="num">1</span><span class="text">卡萨维少年遇害案关注度持续升温</span></div>
+                    <div class="side-item"><span class="num">2</span><span class="text"><span class="plain-link" onclick="switchToNews()">案件详情：卡萨维13岁少年家中遇害</span></span></div>
+                    <div class="side-item"><span class="num">3</span><span class="text"><span class="plain-link" onclick="switchToParents()">2023年卡萨维武装冲突回顾</span></span></div>
+                    <div class="side-item"><span class="num">4</span><span class="text">F国枪支管控法案新进展</span></div>
+                </div>
+
+                <div class="side-block">
+                    <div class="block-title">🕒 最新动态</div>
+                    <div class="side-item"><span class="tag" onclick="showTrackEasterEgg()" style="cursor:pointer;">追踪</span><span class="text" onclick="showUnavailable()">专案组公布案件时间线</span><span class="time-sm">18:30</span></div>
+                    <div class="side-item"><span class="tag">最新</span><span class="text" onclick="showUnavailable()">警方扩大搜索范围</span><span class="time-sm">17:20</span></div>
+                    <div class="side-item"><span class="tag">评论</span><span class="text" onclick="showUnavailable()">当枪声成为日常</span><span class="time-sm">16:00</span></div>
+                    <div class="side-item"><span class="tag">快讯</span><span class="text" onclick="showUnavailable()">心理专家呼吁加强干预</span><span class="time-sm">14:50</span></div>
+                </div>
+
+                <div class="side-block">
+                    <div class="block-title">📌 相关推荐</div>
+                    <div class="side-item"><span class="text" onclick="showUnavailable()">▸ 卡萨维社区安全倡议</span></div>
+                    <div class="side-item"><span class="text" onclick="showUnavailable()">▸ 未成年人心理健康指南</span></div>
+                    <div class="side-item"><span class="text" onclick="showUnavailable()">▸ F国枪支管理政策演变</span></div>
+                </div>
+
+                <!-- 存档提示 -->
+                <div class="archive-notice">
+                    <span>正在查看的是F国新闻<br>2024年3月8日的页面存档</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bar" style="padding:12px 32px;">
+            <div class="links">
+                <a href="#" onclick="showUnavailable()">关于我们</a>
+                <a href="#" onclick="showUnavailable()">版权声明</a>
+                <a href="#" onclick="showUnavailable()">联系我们</a>
+            </div>
+            <div class="footer-right">
+                <span>© 2024 F国新闻 版权所有</span>
+                <span class="time-display" id="concernTime">加载中...</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- ===== 回顾报道页面（金■■父母殉职案一年回顾） ===== -->
+    <!-- ============================================================ -->
+    <div class="page followup-news" id="reviewPage">
+        <span class="back-link" onclick="switchToNews()" style="display:inline-block;margin:16px 32px 0 32px;font-size:14px;color:#1a3c6e;cursor:pointer;border-bottom:1px solid transparent;transition:border-color 0.2s;">← 返回新闻</span>
+
+        <div class="header" style="padding:14px 32px 10px 32px;">
+            <div class="logo-area">
+                <span class="red-dot"></span>
+                <h1 style="font-size:32px;"><span>F</span>国新闻</h1>
+            </div>
+            <div class="header-right">
+                <span class="date">2024年3月8日 · 星期六</span>
+                <div class="search-box">
+                    <input type="text" placeholder="搜 索" id="searchInputReview" onkeypress="if(event.key==='Enter'){handleSearchReview();}" />
+                    <button onclick="handleSearchReview()">搜索</button>
+                </div>
+                <span class="weather">☀️ 卡萨维 12°C</span>
+            </div>
+        </div>
+
+        <div class="main-nav" style="padding:0 32px;">
+            <span class="nav-item active" onclick="showUnavailable()">要闻</span>
+            <span class="divider">|</span>
+            <span class="nav-item" onclick="showUnavailable()">社会</span>
+            <span class="divider">|</span>
+            <span class="nav-item" onclick="showUnavailable()">国际</span>
+            <span class="divider">|</span>
+            <span class="nav-item" onclick="showUnavailable()">财经</span>
+            <span class="divider">|</span>
+            <span class="nav-item" onclick="showUnavailable()">战事</span>
+            <span class="divider">|</span>
+            <span class="nav-item" onclick="showUnavailable()">法治</span>
+            <span class="divider">|</span>
+            <span class="nav-item" onclick="showUnavailable()">健康</span>
+            <span class="nav-more" onclick="showUnavailable()">更多↓</span>
+        </div>
+
+        <div class="sub-nav">
+            <span class="sub-item active" onclick="showUnavailable()">卡萨维</span>
+            <span class="divider">|</span>
+            <span class="sub-item" onclick="showUnavailable()">南部</span>
+            <span class="divider">|</span>
+            <span class="sub-item" onclick="showUnavailable()">深度</span>
+            <span class="divider">|</span>
+            <span class="sub-item" onclick="showUnavailable()">回顾</span>
+        </div>
+
+        <div class="news-body">
+            <div class="main-content">
+                <div class="headline-block">
+                    <div class="label" onclick="showTrackEasterEgg()" style="cursor:pointer;">★ 回顾报道</div>
+                    <h2>金■■父母殉职案一年回顾：无法愈合的伤口</h2>
+                    <div class="sub">
+                        <p><strong>本报记者 朴■■</strong> 卡萨维报道</p>
+
+                        <p>2023年2月13日，卡萨维中央大道与安和路交叉口，一场突如其来的武装冲突夺走了两名现役军人的生命。一年后的今天，案件仍未侦破，留下的不仅是未解的谜团，还有两个破碎的家庭。</p>
+
+                        <p>殉职军人金■■上士与金■■中士夫妇，是卡萨维驻军第三步兵营和医疗分队的成员。事发当天下午14时17分许，二人正在执行例行巡逻任务，行至卡萨维中央大道与安和路交叉口时，突然遭到不明武装分子的伏击。交火持续约10分钟，两名军人因伤势过重不治身亡，另有五名平民受伤。</p>
+
+                        <p>案件发生后，军方立即展开全面调查，警方调取了周边所有监控，并对弹道痕迹进行了多次比对分析。然而，一年过去了，调查进展缓慢，至今未能锁定嫌疑人。军方发言人表示：“我们仍在追查，但目前没有新的突破性进展。”</p>
+
+                        <p>案件的停滞让受害者家属陷入长久的痛苦之中。金■■夫妇留下年仅11岁的独子金■■。事发后，金■■休学三个月，复课后性情大变，从开朗活泼变得沉默寡言，成绩大幅下滑。校方多次建议其亲属带他接受专业心理辅导，但据知情人士透露，金■■拒绝了所有帮助，“他把自己关起来，不让任何人靠近”。</p>
+
+                        <p>更令人痛心的是，当年在场的另一名目击者——金■■的朋友郑■■（时年12岁）——于2024年3月7日在家中遇害，至今凶手仍在逃。两起案件发生在同一街区，涉及同一批目击者，警方已成立专案组对两案进行并案调查。</p>
+
+                        <p>一年来，卡萨维市民多次自发组织悼念活动，呼吁警方加快调查进度。金■■的亲属在采访中表示：“我们只想知道真相。是谁夺走了他们的生命？为什么？一年了，没有人给我们答案。”</p>
+
+                        <p>本台将持续关注案件进展，并在第一时间为您带来最新报道。</p>
+
+                        <p style="margin-top:16px; font-size:14px; color:#888;">相关报道：<span class="plain-link" onclick="switchToParents()">2023年2月13日 · 卡萨维街头武装冲突</span> | <span class="plain-link" onclick="switchToNews()">卡萨维13岁少年遇害案</span> | <span class="plain-link" onclick="switchToFollowUp()">一年后 · 案件调查仍无突破</span></p>
+                    </div>
+                </div>
+
+                <!-- 双栏新闻 -->
+                <div class="news-grid">
+                    <div class="news-column">
+                        <div class="col-title">
+                            <span>案件回顾</span>
+                            <span class="more" onclick="showUnavailable()">更多 →</span>
+                        </div>
+                        <div class="news-list-item"><span class="hl">·</span> 冲突发生时间线梳理 <span class="time">18:20</span></div>
+                        <div class="news-list-item"><span class="hl">·</span> 殉职军人家庭背景报道 <span class="time">17:10</span></div>
+                        <div class="news-list-item"><span class="hl">·</span> 金■■心理状况持续恶化 <span class="time">16:00</span></div>
+                        <div class="news-list-item"><span class="hl">·</span> 市民自发悼念活动回顾 <span class="time">14:50</span></div>
+                    </div>
+
+                    <div class="news-column">
+                        <div class="col-title">
+                            <span>社会反响</span>
+                            <span class="more" onclick="showUnavailable()">更多 →</span>
+                        </div>
+                        <div class="news-list-item"><span class="hl">·</span> 舆论呼吁：要求政府公开调查进展 <span class="time">18:50</span></div>
+                        <div class="news-list-item"><span class="hl">·</span> 心理专家谈目击儿童创伤 <span class="time">17:30</span></div>
+                        <div class="news-list-item"><span class="hl">·</span> 社区“为金■■”募捐活动 <span class="time">16:10</span></div>
+                        <div class="news-list-item"><span class="hl">·</span> 军方承诺重新梳理证据链 <span class="time">15:20</span></div>
+                    </div>
+                </div>
+
+                <div class="feature-grid" style="grid-template-columns:1fr 1fr 1fr;">
+                    <div class="feature-card" onclick="showUnavailable()">
+                        <div class="card-img">文件已损坏</div>
+                        <div class="card-label">专题</div>
+                        <div class="card-title">2023卡萨维冲突全记录</div>
+                        <div class="card-desc">从事件发生到一年后的完整时间线</div>
+                    </div>
+                    <div class="feature-card" onclick="showUnavailable()">
+                        <div class="card-img">文件已损坏</div>
+                        <div class="card-label">访谈</div>
+                        <div class="card-title">目击者回忆：那一年的枪声</div>
+                        <div class="card-desc">亲历者讲述冲突瞬间</div>
+                    </div>
+                    <div class="feature-card" onclick="showUnavailable()">
+                        <div class="card-img">文件已损坏</div>
+                        <div class="card-label">评论</div>
+                        <div class="card-title">暴力留下的裂痕</div>
+                        <div class="card-desc">一个社区的两代创伤</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 回顾报道侧边栏 -->
+            <div class="sidebar">
+                <div class="side-block">
+                    <div class="block-title">📊 相关排行</div>
+                    <div class="side-item"><span class="num">1</span><span class="text">金■■父母殉职案一年回顾</span></div>
+                    <div class="side-item"><span class="num">2</span><span class="text"><span class="plain-link" onclick="switchToParents()">2023年卡萨维武装冲突</span></span></div>
+                    <div class="side-item"><span class="num">3</span><span class="text"><span class="plain-link" onclick="switchToNews()">卡萨维13岁少年遇害案</span></span></div>
+                    <div class="side-item"><span class="num">4</span><span class="text">目击儿童心理问题引关注</span></div>
+                </div>
+
+                <div class="side-block">
+                    <div class="block-title">🕒 最新动态</div>
+                    <div class="side-item"><span class="tag" onclick="showTrackEasterEgg()" style="cursor:pointer;">追踪</span><span class="text" onclick="showUnavailable()">专案组公布案件时间线</span><span class="time-sm">18:30</span></div>
+                    <div class="side-item"><span class="tag">最新</span><span class="text" onclick="showUnavailable()">军方：不排除并案调查可能</span><span class="time-sm">17:20</span></div>
+                    <div class="side-item"><span class="tag">评论</span><span class="text" onclick="showUnavailable()">一个国家的伤口</span><span class="time-sm">16:00</span></div>
+                    <div class="side-item"><span class="tag">快讯</span><span class="text" onclick="showUnavailable()">市长敦促警方加快调查</span><span class="time-sm">14:50</span></div>
+                </div>
+
+                <div class="side-block">
+                    <div class="block-title">📌 相关推荐</div>
+                    <div class="side-item"><span class="text" onclick="showUnavailable()">▸ 两案并案调查时间线</span></div>
+                    <div class="side-item"><span class="text" onclick="showUnavailable()">▸ 创伤后儿童心理干预指南</span></div>
+                    <div class="side-item"><span class="text" onclick="showUnavailable()">▸ 卡萨维社区安全现状报告</span></div>
+                </div>
+
+                <!-- 存档提示 -->
+                <div class="archive-notice">
+                    <span>正在查看的是F国新闻<br>2024年3月8日的页面存档</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bar" style="padding:12px 32px;">
+            <div class="links">
+                <a href="#" onclick="showUnavailable()">关于我们</a>
+                <a href="#" onclick="showUnavailable()">版权声明</a>
+                <a href="#" onclick="showUnavailable()">联系我们</a>
+            </div>
+            <div class="footer-right">
+                <span>© 2024 F国新闻 版权所有</span>
+                <span class="time-display" id="reviewTime">加载中...</span>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <script>
@@ -1444,18 +1976,9 @@
         alert("此页面无法显示");
     }
 
-    // ===== 主新闻页追踪彩蛋 =====
+    // ===== 追踪彩蛋（所有页面共用） =====
     function showTrackEasterEgg() {
         alert("你的每一个脚印，都逃不过我的眼睛……嘻嘻。");
-    }
-
-    // ===== 父母案页追踪彩蛋 =====
-    function showParentsTrackEasterEgg() {
-        if (parentsTriggered) {
-            alert("你杀了他");
-        } else {
-            alert("你的每一个脚印，都逃不过我的眼睛……嘻嘻。");
-        }
     }
 
     // =============================================================
@@ -1475,6 +1998,15 @@
 
         const p = document.getElementById('parentsTime');
         if (p) p.textContent = '当前时间 ' + t;
+
+        const f = document.getElementById('followUpTime');
+        if (f) f.textContent = '当前时间 ' + t;
+
+        const c = document.getElementById('concernTime');
+        if (c) c.textContent = '当前时间 ' + t;
+
+        const r = document.getElementById('reviewTime');
+        if (r) r.textContent = '当前时间 ' + t;
 
         const headerDate = document.getElementById('headerDate');
         if (headerDate) headerDate.textContent = '2024年3月8日 · 星期六';
@@ -1500,6 +2032,27 @@
         startParentsEasterEgg();
     }
 
+    function switchToFollowUp() {
+        clearProfileCorruption();
+        hideAll();
+        document.getElementById('newsPage').classList.remove('visible');
+        document.getElementById('followUpPage').classList.add('visible');
+    }
+
+    function switchToConcern() {
+        clearProfileCorruption();
+        hideAll();
+        document.getElementById('newsPage').classList.remove('visible');
+        document.getElementById('concernPage').classList.add('visible');
+    }
+
+    function switchToReview() {
+        clearProfileCorruption();
+        hideAll();
+        document.getElementById('newsPage').classList.remove('visible');
+        document.getElementById('reviewPage').classList.add('visible');
+    }
+
     function switchToNews() {
         clearProfileCorruption();
         clearParentsEasterEgg();
@@ -1511,6 +2064,9 @@
         document.getElementById('newsPage').classList.remove('visible');
         document.getElementById('profilePage').classList.remove('visible');
         document.getElementById('parentsPage').classList.remove('visible');
+        document.getElementById('followUpPage').classList.remove('visible');
+        document.getElementById('concernPage').classList.remove('visible');
+        document.getElementById('reviewPage').classList.remove('visible');
     }
 
     // =============================================================
@@ -1825,13 +2381,238 @@
                 });
             });
         }
+
+        // 后续报道页面
+        const followUpPage = document.getElementById('followUpPage');
+        if (followUpPage) {
+            const clickables = followUpPage.querySelectorAll(
+                '.side-item, .more, .news-list-item, .links a, .header .date, .logo-area, .search-box button, .nav-more, .main-nav .nav-item, .sub-nav .sub-item, .feature-card'
+                );
+            clickables.forEach(function(el) {
+                if (el.classList && el.classList.contains('hidden-link')) return;
+                el.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    showUnavailable();
+                });
+            });
+        }
+
+        // 关注报道页面
+        const concernPage = document.getElementById('concernPage');
+        if (concernPage) {
+            const clickables = concernPage.querySelectorAll(
+                '.side-item, .more, .news-list-item, .links a, .header .date, .logo-area, .search-box button, .nav-more, .main-nav .nav-item, .sub-nav .sub-item, .feature-card'
+                );
+            clickables.forEach(function(el) {
+                if (el.classList && el.classList.contains('hidden-link')) return;
+                el.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    showUnavailable();
+                });
+            });
+        }
+
+        // 回顾报道页面
+        const reviewPage = document.getElementById('reviewPage');
+        if (reviewPage) {
+            const clickables = reviewPage.querySelectorAll(
+                '.side-item, .more, .news-list-item, .links a, .header .date, .logo-area, .search-box button, .nav-more, .main-nav .nav-item, .sub-nav .sub-item, .feature-card'
+                );
+            clickables.forEach(function(el) {
+                if (el.classList && el.classList.contains('hidden-link')) return;
+                el.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    showUnavailable();
+                });
+            });
+        }
     });
 
     // =============================================================
-    // 搜索框彩蛋
+    // 搜索框彩蛋（主页面）
     // =============================================================
     function handleSearch() {
         const input = document.getElementById('searchInput');
+        if (!input) return;
+        const query = input.value.trim();
+        if (query === '') return;
+
+        const searchMap = {
+            '烟花': '嘿、嘿！你、你看到我了吗？我、我在这里！',
+            '烟花蛋': '嘿、嘿！你、你看到我了吗？我、我在这里！',
+            '花闪闪': '我、我、我不是…是、是爆炸……好、好怕',
+            '剑仙': '哼，想当年本剑仙一剑斩尽天下恶徒——啊，这段往事说来话长……改日再叙！',
+            '剑仙蛋': '哼，想当年本剑仙一剑斩尽天下恶徒——啊，这段往事说来话长……改日再叙！',
+            '灵韵': '你、你该不会…没听说过本剑仙的威名吧？……',
+            '云飞': '你、你该不会…没听说过本剑仙的威名吧？……',
+            '爆破': '你听到爆炸声了吗？',
+            '爆破蛋': '你听到爆炸声了吗？',
+            '轰咚': '别…别过来…我听、听到了…那声音又来了…',
+            '突击': '这个世界糟透了。',
+            '突击蛋': '这个世界糟透了。',
+            '突拉拉': '这个世界本来就是黑的。你只是在假装看不见而已。',
+            '泰坦': '你…你也是他们派来的吗？',
+            '泰坦蛋': '你…你也是他们派来的吗？',
+            '泰小坦': '你想—监视我？控制我？我…我不会上当的……',
+            '医疗': '医生？他们都是骗子。',
+            '医疗蛋': '医生？他们都是骗子。',
+            '伊伊': '医生？呵呵…你相信他们吗？我可不信。',
+            '工匠': '胜利就是一切。',
+            '工匠蛋': '胜利就是一切。',
+            '乔泽': '弱者不配活着。你也是。',
+            '身法': '……别多问。',
+            '身法蛋': '……我不知道你想说什么。让开。'
+        };
+
+        const cleanQuery = query.replace(/\s/g, '');
+        if (searchMap[query] !== undefined) {
+            alert(searchMap[query]);
+        } else if (searchMap[cleanQuery] !== undefined) {
+            alert(searchMap[cleanQuery]);
+        }
+        // 不匹配时无任何弹窗
+    }
+
+    // =============================================================
+    // 搜索框彩蛋（父母案页面）
+    // =============================================================
+    function handleSearchParents() {
+        const input = document.getElementById('searchInputParents');
+        if (!input) return;
+        const query = input.value.trim();
+        if (query === '') return;
+
+        const searchMap = {
+            '烟花': '嘿、嘿！你、你看到我了吗？我、我在这里！',
+            '烟花蛋': '嘿、嘿！你、你看到我了吗？我、我在这里！',
+            '花闪闪': '我、我、我不是…是、是爆炸……好、好怕',
+            '剑仙': '哼，想当年本剑仙一剑斩尽天下恶徒——啊，这段往事说来话长……改日再叙！',
+            '剑仙蛋': '哼，想当年本剑仙一剑斩尽天下恶徒——啊，这段往事说来话长……改日再叙！',
+            '灵韵': '你、你该不会…没听说过本剑仙的威名吧？……',
+            '云飞': '你、你该不会…没听说过本剑仙的威名吧？……',
+            '爆破': '你听到爆炸声了吗？',
+            '爆破蛋': '你听到爆炸声了吗？',
+            '轰咚': '别…别过来…我听、听到了…那声音又来了…',
+            '突击': '这个世界糟透了。',
+            '突击蛋': '这个世界糟透了。',
+            '突拉拉': '这个世界本来就是黑的。你只是在假装看不见而已。',
+            '泰坦': '你…你也是他们派来的吗？',
+            '泰坦蛋': '你…你也是他们派来的吗？',
+            '泰小坦': '你想—监视我？控制我？我…我不会上当的……',
+            '医疗': '医生？他们都是骗子。',
+            '医疗蛋': '医生？他们都是骗子。',
+            '伊伊': '医生？呵呵…你相信他们吗？我可不信。',
+            '工匠': '胜利就是一切。',
+            '工匠蛋': '胜利就是一切。',
+            '乔泽': '弱者不配活着。你也是。',
+            '身法': '……别多问。',
+            '身法蛋': '……我不知道你想说什么。让开。'
+        };
+
+        const cleanQuery = query.replace(/\s/g, '');
+        if (searchMap[query] !== undefined) {
+            alert(searchMap[query]);
+        } else if (searchMap[cleanQuery] !== undefined) {
+            alert(searchMap[cleanQuery]);
+        }
+        // 不匹配时无任何弹窗
+    }
+
+    // =============================================================
+    // 搜索框彩蛋（后续报道页面）
+    // =============================================================
+    function handleSearchFollow() {
+        const input = document.getElementById('searchInputFollow');
+        if (!input) return;
+        const query = input.value.trim();
+        if (query === '') return;
+
+        const searchMap = {
+            '烟花': '嘿、嘿！你、你看到我了吗？我、我在这里！',
+            '烟花蛋': '嘿、嘿！你、你看到我了吗？我、我在这里！',
+            '花闪闪': '我、我、我不是…是、是爆炸……好、好怕',
+            '剑仙': '哼，想当年本剑仙一剑斩尽天下恶徒——啊，这段往事说来话长……改日再叙！',
+            '剑仙蛋': '哼，想当年本剑仙一剑斩尽天下恶徒——啊，这段往事说来话长……改日再叙！',
+            '灵韵': '你、你该不会…没听说过本剑仙的威名吧？……',
+            '云飞': '你、你该不会…没听说过本剑仙的威名吧？……',
+            '爆破': '你听到爆炸声了吗？',
+            '爆破蛋': '你听到爆炸声了吗？',
+            '轰咚': '别…别过来…我听、听到了…那声音又来了…',
+            '突击': '这个世界糟透了。',
+            '突击蛋': '这个世界糟透了。',
+            '突拉拉': '这个世界本来就是黑的。你只是在假装看不见而已。',
+            '泰坦': '你…你也是他们派来的吗？',
+            '泰坦蛋': '你…你也是他们派来的吗？',
+            '泰小坦': '你想—监视我？控制我？我…我不会上当的……',
+            '医疗': '医生？他们都是骗子。',
+            '医疗蛋': '医生？他们都是骗子。',
+            '伊伊': '医生？呵呵…你相信他们吗？我可不信。',
+            '工匠': '胜利就是一切。',
+            '工匠蛋': '胜利就是一切。',
+            '乔泽': '弱者不配活着。你也是。',
+            '身法': '……别多问。',
+            '身法蛋': '……我不知道你想说什么。让开。'
+        };
+
+        const cleanQuery = query.replace(/\s/g, '');
+        if (searchMap[query] !== undefined) {
+            alert(searchMap[query]);
+        } else if (searchMap[cleanQuery] !== undefined) {
+            alert(searchMap[cleanQuery]);
+        }
+        // 不匹配时无任何弹窗
+    }
+
+    // =============================================================
+    // 搜索框彩蛋（关注报道页面）
+    // =============================================================
+    function handleSearchConcern() {
+        const input = document.getElementById('searchInputConcern');
+        if (!input) return;
+        const query = input.value.trim();
+        if (query === '') return;
+
+        const searchMap = {
+            '烟花': '嘿、嘿！你、你看到我了吗？我、我在这里！',
+            '烟花蛋': '嘿、嘿！你、你看到我了吗？我、我在这里！',
+            '花闪闪': '我、我、我不是…是、是爆炸……好、好怕',
+            '剑仙': '哼，想当年本剑仙一剑斩尽天下恶徒——啊，这段往事说来话长……改日再叙！',
+            '剑仙蛋': '哼，想当年本剑仙一剑斩尽天下恶徒——啊，这段往事说来话长……改日再叙！',
+            '灵韵': '你、你该不会…没听说过本剑仙的威名吧？……',
+            '云飞': '你、你该不会…没听说过本剑仙的威名吧？……',
+            '爆破': '你听到爆炸声了吗？',
+            '爆破蛋': '你听到爆炸声了吗？',
+            '轰咚': '别…别过来…我听、听到了…那声音又来了…',
+            '突击': '这个世界糟透了。',
+            '突击蛋': '这个世界糟透了。',
+            '突拉拉': '这个世界本来就是黑的。你只是在假装看不见而已。',
+            '泰坦': '你…你也是他们派来的吗？',
+            '泰坦蛋': '你…你也是他们派来的吗？',
+            '泰小坦': '你想—监视我？控制我？我…我不会上当的……',
+            '医疗': '医生？他们都是骗子。',
+            '医疗蛋': '医生？他们都是骗子。',
+            '伊伊': '医生？呵呵…你相信他们吗？我可不信。',
+            '工匠': '胜利就是一切。',
+            '工匠蛋': '胜利就是一切。',
+            '乔泽': '弱者不配活着。你也是。',
+            '身法': '……别多问。',
+            '身法蛋': '……我不知道你想说什么。让开。'
+        };
+
+        const cleanQuery = query.replace(/\s/g, '');
+        if (searchMap[query] !== undefined) {
+            alert(searchMap[query]);
+        } else if (searchMap[cleanQuery] !== undefined) {
+            alert(searchMap[cleanQuery]);
+        }
+        // 不匹配时无任何弹窗
+    }
+
+    // =============================================================
+    // 搜索框彩蛋（回顾报道页面）
+    // =============================================================
+    function handleSearchReview() {
+        const input = document.getElementById('searchInputReview');
         if (!input) return;
         const query = input.value.trim();
         if (query === '') return;
