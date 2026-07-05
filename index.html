@@ -1,0 +1,1864 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>F国新闻网</title>
+    <style>
+        /* ---------- 全局 ---------- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #e8ecf1;
+            font-family: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+            padding: 20px 0;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+            align-items: flex-start;
+            transition: background-color 0.5s;
+        }
+
+        .page-container {
+            max-width: 1300px;
+            width: 100%;
+            position: relative;
+        }
+
+        .page {
+            background: #ffffff;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.10);
+            border-radius: 8px;
+            overflow: hidden;
+            padding: 0;
+            position: relative;
+            display: none;
+        }
+
+        .page.visible {
+            display: block;
+        }
+
+        /* ---------- 顶部栏（黑色条） ---------- */
+        .top-bar {
+            background: #1a1a2e;
+            color: #aaa;
+            font-size: 12px;
+            padding: 6px 32px;
+            display: flex;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .top-bar .left {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .top-bar .left a {
+            color: #aaa;
+            text-decoration: none;
+            font-size: 12px;
+            transition: color 0.2s;
+            cursor: pointer;
+        }
+        .top-bar .left a:hover {
+            color: #fff;
+        }
+
+        /* ---------- 头部 ---------- */
+        .header {
+            padding: 18px 32px 14px 32px;
+            border-bottom: 4px solid #cc0000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            background: #fff;
+        }
+        .header .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .header .logo-area .red-dot {
+            display: inline-block;
+            width: 28px;
+            height: 28px;
+            background: #cc0000;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        .header .logo-area h1 {
+            font-size: 42px;
+            font-weight: 900;
+            color: #1a1a1a;
+            letter-spacing: 2px;
+        }
+        .header .logo-area h1 span {
+            color: #cc0000;
+        }
+        .header .header-right {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            flex-wrap: wrap;
+        }
+        .header .header-right .date {
+            font-size: 14px;
+            color: #888;
+            border-right: 1px solid #ddd;
+            padding-right: 16px;
+        }
+        .header .header-right .search-box {
+            display: flex;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .header .header-right .search-box input {
+            border: none;
+            padding: 6px 14px;
+            font-size: 13px;
+            outline: none;
+            width: 200px;
+            color: #333;
+        }
+        .header .header-right .search-box button {
+            background: #cc0000;
+            color: #fff;
+            border: none;
+            padding: 6px 16px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: background 0.2s;
+        }
+        .header .header-right .search-box button:hover {
+            background: #aa0000;
+        }
+        .header .header-right .weather {
+            font-size: 13px;
+            color: #666;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* ---------- 主导航 ---------- */
+        .main-nav {
+            background: #f5f5f5;
+            border-bottom: 2px solid #e0e0e0;
+            padding: 0 32px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 4px 20px;
+            font-size: 15px;
+            font-weight: 500;
+        }
+        .main-nav .nav-item {
+            color: #1a1a1a;
+            cursor: pointer;
+            padding: 10px 0;
+            transition: color 0.15s;
+            user-select: none;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+        }
+        .main-nav .nav-item:hover {
+            color: #cc0000;
+        }
+        .main-nav .nav-item.active {
+            color: #cc0000;
+            border-bottom-color: #cc0000;
+        }
+        .main-nav .divider {
+            color: #ccc;
+            user-select: none;
+        }
+        .main-nav .nav-more {
+            color: #888;
+            font-size: 13px;
+            cursor: pointer;
+            margin-left: auto;
+            transition: color 0.2s;
+        }
+        .main-nav .nav-more:hover {
+            color: #cc0000;
+        }
+
+        /* ---------- 二级导航（栏目） ---------- */
+        .sub-nav {
+            background: #fafafa;
+            padding: 4px 32px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px 24px;
+            font-size: 13px;
+            color: #666;
+            border-bottom: 1px solid #eee;
+        }
+        .sub-nav .sub-item {
+            cursor: pointer;
+            padding: 4px 0;
+            transition: color 0.2s;
+            color: #666;
+        }
+        .sub-nav .sub-item:hover {
+            color: #cc0000;
+        }
+        .sub-nav .sub-item.active {
+            color: #cc0000;
+            font-weight: 500;
+        }
+        .sub-nav .divider {
+            color: #ddd;
+            user-select: none;
+        }
+
+        /* ---------- 新闻主体（双栏布局） ---------- */
+        .news-body {
+            padding: 24px 32px 28px 32px;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 28px;
+        }
+
+        /* ---- 左栏 ---- */
+        .main-content {
+            min-width: 0;
+        }
+
+        /* 头条区域 */
+        .headline-block {
+            background: #fafafa;
+            padding: 20px 24px;
+            border-radius: 6px;
+            border-left: 4px solid #cc0000;
+            margin-bottom: 28px;
+        }
+        .headline-block .label {
+            font-size: 13px;
+            color: #cc0000;
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+        .headline-block h2 {
+            font-size: 26px;
+            font-weight: 700;
+            color: #1a1a1a;
+            line-height: 1.4;
+            margin-bottom: 8px;
+        }
+        .headline-block .sub {
+            font-size: 15px;
+            color: #222;
+            line-height: 1.9;
+        }
+        .headline-block .sub p {
+            margin-bottom: 12px;
+        }
+        .headline-block .sub p:last-child {
+            margin-bottom: 0;
+        }
+        .headline-block .sub .hidden-link {
+            border-bottom: 1px dashed #cc0000;
+            cursor: pointer;
+            color: #1a1a1a;
+            font-weight: 600;
+        }
+        .headline-block .sub .hidden-link:hover {
+            color: #cc0000;
+        }
+
+        /* 双栏新闻列表 */
+        .news-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px 32px;
+            margin-bottom: 28px;
+        }
+        .news-column .col-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1a1a1a;
+            border-bottom: 2px solid #cc0000;
+            padding-bottom: 8px;
+            margin-bottom: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .news-column .col-title .more {
+            font-size: 13px;
+            color: #888;
+            font-weight: 400;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .news-column .col-title .more:hover {
+            color: #cc0000;
+        }
+        .news-list-item {
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 14px;
+            color: #1a1a1a;
+            line-height: 1.7;
+            cursor: default;
+        }
+        .news-list-item:last-child {
+            border-bottom: none;
+        }
+        .news-list-item .hl {
+            color: #cc0000;
+            font-weight: 600;
+            margin-right: 4px;
+        }
+        .news-list-item .hidden-link {
+            border-bottom: 1px dashed #cc0000;
+            cursor: pointer;
+            color: #1a1a1a;
+            font-weight: 600;
+        }
+        .news-list-item .hidden-link:hover {
+            color: #cc0000;
+        }
+        .news-list-item .time {
+            font-size: 12px;
+            color: #999;
+            margin-left: 10px;
+            float: right;
+        }
+
+        /* 专题/图片推荐 */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .feature-card {
+            background: #f7f9fc;
+            border-radius: 6px;
+            padding: 14px 16px;
+            border: 1px solid #eee;
+            transition: border-color 0.2s;
+            cursor: default;
+        }
+        .feature-card:hover {
+            border-color: #cc0000;
+        }
+        .feature-card .card-img {
+            width: 100%;
+            height: 90px;
+            background: linear-gradient(135deg, #dce3ec, #c8d2df);
+            border-radius: 4px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            color: #7a8b9f;
+            font-weight: 400;
+        }
+        .feature-card .card-label {
+            font-size: 11px;
+            color: #cc0000;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-bottom: 3px;
+        }
+        .feature-card .card-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: #1a1a1a;
+            line-height: 1.5;
+        }
+        .feature-card .card-desc {
+            font-size: 13px;
+            color: #888;
+            margin-top: 4px;
+            line-height: 1.5;
+        }
+
+        /* ---- 右栏（侧边栏） ---- */
+        .sidebar {
+            min-width: 0;
+        }
+        .sidebar .side-block {
+            background: #f8fafc;
+            border-radius: 6px;
+            padding: 16px 18px;
+            margin-bottom: 20px;
+            border: 1px solid #eef0f5;
+        }
+        .sidebar .side-block .block-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1a1a1a;
+            border-bottom: 2px solid #cc0000;
+            padding-bottom: 6px;
+            margin-bottom: 12px;
+        }
+        .sidebar .side-block .side-item {
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 14px;
+            color: #1a1a1a;
+            line-height: 1.6;
+            cursor: pointer;
+            transition: color 0.2s;
+            display: flex;
+            gap: 8px;
+        }
+        .sidebar .side-block .side-item:last-child {
+            border-bottom: none;
+        }
+        .sidebar .side-block .side-item:hover {
+            color: #cc0000;
+        }
+        .sidebar .side-block .side-item .num {
+            color: #cc0000;
+            font-weight: 700;
+            flex-shrink: 0;
+            width: 22px;
+            text-align: right;
+        }
+        .sidebar .side-block .side-item .tag {
+            font-size: 11px;
+            color: #cc0000;
+            font-weight: 600;
+            background: #fff0f0;
+            padding: 0 8px;
+            border-radius: 10px;
+            flex-shrink: 0;
+            height: 20px;
+            line-height: 20px;
+        }
+        .sidebar .side-block .side-item .text {
+            flex: 1;
+        }
+        .sidebar .side-block .side-item .time-sm {
+            font-size: 12px;
+            color: #999;
+            flex-shrink: 0;
+        }
+
+        /* ---- 存档提示 ---- */
+        .archive-notice {
+            font-size: 12px;
+            color: rgba(0, 0, 0, 0.25);
+            text-align: center;
+            padding: 16px 0 4px 0;
+            border-top: 1px solid rgba(0,0,0,0.05);
+            font-style: italic;
+            letter-spacing: 0.5px;
+            line-height: 1.8;
+            user-select: none;
+            pointer-events: none;
+        }
+        .archive-notice span {
+            display: inline-block;
+        }
+
+        /* ---------- 底部 ---------- */
+        .footer-bar {
+            border-top: 3px solid #e0e0e0;
+            padding: 18px 32px 14px 32px;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            font-size: 12px;
+            color: #999;
+            background: #fafafa;
+        }
+        .footer-bar .links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px 18px;
+        }
+        .footer-bar .links a {
+            color: #888;
+            text-decoration: none;
+            transition: color 0.2s;
+            cursor: pointer;
+        }
+        .footer-bar .links a:hover {
+            color: #cc0000;
+        }
+        .footer-bar .footer-right {
+            display: flex;
+            gap: 18px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .footer-bar .time-display {
+            font-family: "Courier New", monospace;
+            background: #f5f5f5;
+            padding: 2px 14px;
+            border-radius: 3px;
+            color: #555;
+            font-size: 12px;
+        }
+
+        /* ---------- 学生档案页面样式 ---------- */
+        .profile-card {
+            padding: 0;
+        }
+        .profile-card .back-link {
+            display: inline-block;
+            margin: 16px 32px 0 32px;
+            font-size: 14px;
+            color: #1a3c6e;
+            cursor: pointer;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.2s;
+        }
+        .profile-card .back-link:hover {
+            border-bottom-color: #1a3c6e;
+        }
+        .profile-card .profile-inner {
+            padding: 0 32px 28px 32px;
+        }
+        .profile-card .school-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            border-bottom: 3px solid #1a3c6e;
+            padding-bottom: 14px;
+            margin-bottom: 20px;
+        }
+        .profile-card .school-header .badge {
+            background: #1a3c6e;
+            color: #fff;
+            font-weight: 700;
+            font-size: 14px;
+            padding: 4px 16px;
+            border-radius: 20px;
+            letter-spacing: 0.5px;
+        }
+        .profile-card .school-header h2 {
+            font-size: 22px;
+            font-weight: 600;
+            color: #1a3c6e;
+        }
+        .profile-card .school-header .system-tag {
+            margin-left: auto;
+            font-size: 13px;
+            color: #888;
+            background: #f0f0f0;
+            padding: 4px 14px;
+            border-radius: 12px;
+        }
+        .profile-nav {
+            display: flex;
+            gap: 24px;
+            border-bottom: 2px solid #d0dbe8;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-size: 15px;
+            font-weight: 500;
+            color: #1a3c6e;
+            flex-wrap: wrap;
+        }
+        .profile-nav .nav-item {
+            cursor: pointer;
+            color: #1a3c6e;
+            padding-bottom: 2px;
+            transition: color 0.15s;
+            user-select: none;
+        }
+        .profile-nav .nav-item:hover {
+            color: #cc0000;
+        }
+        .profile-nav .nav-item.active {
+            color: #cc0000;
+            border-bottom: 3px solid #cc0000;
+            padding-bottom: 0px;
+        }
+        .profile-nav .divider {
+            color: #b0c0d0;
+            user-select: none;
+        }
+        .student-id-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            background: #f4f7fb;
+            padding: 12px 18px;
+            border-radius: 8px;
+            margin-bottom: 18px;
+            font-size: 14px;
+            color: #333;
+            border: 1px solid #e0e8f0;
+        }
+        .student-id-row span {
+            margin-right: 18px;
+        }
+        .student-id-row strong {
+            color: #1a3c6e;
+        }
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px 40px;
+            background: #fafcfe;
+            padding: 16px 20px;
+            border-radius: 8px;
+            border: 1px solid #e6edf4;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+        .info-grid .item {
+            padding: 4px 0;
+            border-bottom: 1px dashed #eef2f7;
+        }
+        .info-grid .item .label {
+            color: #888;
+            font-weight: 400;
+            margin-right: 6px;
+        }
+        .info-grid .item .value {
+            color: #1a1a1a;
+            font-weight: 500;
+        }
+        .info-grid .item .hidden-link {
+            border-bottom: 1px dashed #cc0000;
+            cursor: pointer;
+        }
+        .section-title {
+            font-size: 17px;
+            font-weight: 600;
+            color: #1a3c6e;
+            margin: 20px 0 12px 0;
+            border-left: 4px solid #1a3c6e;
+            padding-left: 12px;
+        }
+        .course-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+            background: #fafcfe;
+            border: 1px solid #e0e8f0;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 18px;
+        }
+        .course-table th {
+            background: #eef3f8;
+            color: #1a3c6e;
+            font-weight: 600;
+            padding: 8px 14px;
+            text-align: left;
+            border-bottom: 2px solid #d0dbe8;
+        }
+        .course-table td {
+            padding: 8px 14px;
+            border-bottom: 1px solid #e6edf4;
+            color: #1a1a1a;
+        }
+        .course-table tr:last-child td {
+            border-bottom: none;
+        }
+        .notice-list {
+            list-style: none;
+            padding-left: 0;
+            margin-bottom: 18px;
+        }
+        .notice-list li {
+            font-size: 14px;
+            line-height: 1.8;
+            color: #222;
+            padding: 6px 0 6px 20px;
+            border-bottom: 1px solid #f0f0f0;
+            position: relative;
+        }
+        .notice-list li::before {
+            content: "◆";
+            position: absolute;
+            left: 0;
+            color: #1a3c6e;
+            font-size: 12px;
+        }
+        .notice-list li:last-child {
+            border-bottom: none;
+        }
+        .bio-text {
+            font-size: 14px;
+            line-height: 1.8;
+            color: #333;
+            background: #f8fafc;
+            padding: 14px 18px;
+            border-radius: 8px;
+            border: 1px solid #e6edf4;
+            margin-bottom: 12px;
+        }
+        .footer-note {
+            margin-top: 22px;
+            padding-top: 14px;
+            border-top: 2px solid #e6edf4;
+            font-size: 12px;
+            color: #aaa;
+            text-align: right;
+            letter-spacing: 0.3px;
+        }
+
+        /* ---------- 郑页面诅咒 ---------- */
+        body.profile-corrupted {
+            background-color: #1a0000;
+        }
+        body.profile-corrupted .profile-card .profile-inner * {
+            color: #8a2a2a !important;
+            border-color: #4a1a1a !important;
+        }
+        body.profile-corrupted .profile-card .profile-nav .nav-item {
+            color: #8a2a2a !important;
+        }
+        body.profile-corrupted .profile-card .profile-nav .nav-item.active {
+            color: #8a2a2a !important;
+            border-color: #8a2a2a !important;
+        }
+        body.profile-corrupted .profile-card .back-link {
+            color: #8a2a2a !important;
+        }
+        body.profile-corrupted .profile-card .student-id-row {
+            background: #2a0a0a;
+        }
+        body.profile-corrupted .profile-card .info-grid {
+            background: #1a0808;
+            border-color: #4a1a1a;
+        }
+        body.profile-corrupted .profile-card .course-table {
+            background: #1a0808;
+            border-color: #4a1a1a;
+        }
+        body.profile-corrupted .profile-card .course-table th {
+            background: #2a0a0a;
+            border-color: #4a1a1a;
+        }
+        body.profile-corrupted .profile-card .course-table td {
+            border-color: #3a1212;
+        }
+        body.profile-corrupted .profile-card .bio-text {
+            background: #1a0808;
+            border-color: #4a1a1a;
+        }
+        body.profile-corrupted .profile-card .notice-list li {
+            border-color: #3a1212;
+        }
+        body.profile-corrupted .profile-card .footer-note {
+            border-color: #4a1a1a;
+        }
+
+        /* ---------- 父母案弹窗 ---------- */
+        #parentsPopupContainer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 100000;
+        }
+        .parents-popup {
+            position: fixed;
+            background: rgba(20, 20, 30, 0.92);
+            border: 2px solid #ff3333;
+            border-radius: 12px;
+            padding: 24px 32px;
+            min-width: 200px;
+            max-width: 320px;
+            color: #ff4444;
+            font-size: 22px;
+            font-weight: 700;
+            font-family: "Courier New", monospace;
+            text-align: center;
+            box-shadow: 0 0 40px rgba(200, 0, 0, 0.6);
+            pointer-events: auto;
+            z-index: 100001;
+            transition: opacity 0.2s;
+            transform: translate(-50%, -50%);
+            user-select: none;
+        }
+        .parents-popup .close-btn {
+            position: absolute;
+            top: 6px;
+            right: 12px;
+            color: #ff6666;
+            font-size: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: color 0.2s;
+            line-height: 1;
+            background: none;
+            border: none;
+            padding: 4px 8px;
+        }
+        .parents-popup .close-btn:hover {
+            color: #ff0000;
+        }
+
+        /* ---------- 响应式 ---------- */
+        @media (max-width: 1024px) {
+            .news-body {
+                grid-template-columns: 1fr;
+            }
+            .sidebar {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 16px;
+            }
+            .sidebar .side-block {
+                margin-bottom: 0;
+            }
+            .feature-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 12px 16px;
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .header .logo-area h1 {
+                font-size: 30px;
+            }
+            .header .header-right {
+                justify-content: space-between;
+            }
+            .header .header-right .search-box input {
+                width: 120px;
+            }
+            .top-bar {
+                padding: 4px 16px;
+                font-size: 11px;
+            }
+            .main-nav {
+                padding: 0 16px;
+                gap: 2px 12px;
+                font-size: 13px;
+            }
+            .sub-nav {
+                padding: 4px 16px;
+                gap: 4px 14px;
+                font-size: 12px;
+            }
+            .news-body {
+                padding: 12px 14px 20px;
+            }
+            .news-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+            .headline-block {
+                padding: 14px 16px;
+            }
+            .headline-block h2 {
+                font-size: 20px;
+            }
+            .sidebar {
+                grid-template-columns: 1fr;
+            }
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+            .footer-bar {
+                padding: 12px 16px;
+                flex-direction: column;
+                gap: 8px;
+            }
+            .profile-card .profile-inner {
+                padding: 0 14px 20px;
+            }
+            .profile-card .back-link {
+                margin: 12px 14px 0 14px;
+            }
+            .info-grid {
+                grid-template-columns: 1fr;
+                padding: 12px 14px;
+            }
+            .profile-nav {
+                gap: 10px;
+                font-size: 13px;
+            }
+            .parents-popup {
+                font-size: 18px;
+                padding: 18px 24px;
+                min-width: 160px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header .header-right .search-box input {
+                width: 80px;
+            }
+            .top-bar .left {
+                gap: 8px;
+            }
+            .main-nav {
+                gap: 2px 8px;
+                font-size: 12px;
+            }
+        }
+
+        @media print {
+            body {
+                background: #fff;
+                padding: 0;
+            }
+            .page {
+                box-shadow: none;
+                border-radius: 0;
+            }
+            #parentsPopupContainer {
+                display: none !important;
+            }
+        }
+
+        .hidden-link {
+            border-bottom: 1px dashed #cc0000;
+            cursor: pointer;
+            color: #1a1a1a;
+            font-weight: 600;
+            transition: color 0.2s, border-color 0.2s;
+        }
+        .hidden-link:hover {
+            color: #cc0000;
+            border-color: #cc0000;
+        }
+    </style>
+</head>
+<body>
+
+<div class="page-container">
+
+    <!-- ============================================================ -->
+    <!-- ===== 新闻页面（2024年） ===== -->
+    <!-- ============================================================ -->
+    <div class="page visible" id="newsPage">
+
+        <!-- 顶部栏（已移除 English、WAP版、RSS） -->
+        <div class="top-bar">
+            <div class="left">
+                <a href="#" onclick="showUnavailable()">融媒体矩阵</a>
+                <a href="#" onclick="showUnavailable()">品牌栏目</a>
+                <a href="#" onclick="showUnavailable()">企业邮箱</a>
+                <a href="#" onclick="showUnavailable()">客户端</a>
+            </div>
+        </div>
+
+        <!-- 头部 -->
+        <div class="header">
+            <div class="logo-area">
+                <span class="red-dot"></span>
+                <h1><span>F</span>国新闻</h1>
+            </div>
+            <div class="header-right">
+                <span class="date" id="headerDate">2024年3月8日 · 星期六</span>
+                <div class="search-box">
+                    <input type="text" placeholder="搜 索" id="searchInput" onkeypress="if(event.key==='Enter'){handleSearch();}" />
+                    <button onclick="handleSearch()">搜索</button>
+                </div>
+                <span class="weather">☀️ 卡萨维 12°C</span>
+            </div>
+        </div>
+
+        <!-- 主导航 -->
+        <div class="main-nav" id="newsNav">
+            <span class="nav-item active" onclick="showUnavailable()">要闻</span>
+            <span class="divider">|</span>
+            <span class="nav-item" onclick="showUnavailable()">社会</span>
+            <span class="divider">|</span>
+            <span class="nav-item" onclick="showUnavailable()">国际</span>
+            <span class="divider">|</span>
+            <span class="nav-item" onclick="showUnavailable()">财经</span>
+            <span class="divider">|</span>
+            <span class="nav-item" onclick="showUnavailable()">战事</span>
+            <span class="divider">|</span>
+            <span class="nav-item" onclick="showUnavailable()">法治</span>
+            <span class="divider">|</span>
+            <span class="nav-item" onclick="showUnavailable()">健康</span>
+            <span class="divider">|</span>
+            <span class="nav-item" onclick="showUnavailable()">生活</span>
+            <span class="divider">|</span>
+            <span class="nav-item" onclick="showUnavailable()">视频</span>
+            <span class="divider">|</span>
+            <span class="nav-item" onclick="showUnavailable()">图片</span>
+            <span class="divider">|</span>
+            <span class="nav-item" onclick="showUnavailable()">直播</span>
+            <span class="nav-more" onclick="showUnavailable()">更多↓</span>
+        </div>
+
+        <!-- 二级导航 -->
+        <div class="sub-nav">
+            <span class="sub-item active" onclick="showUnavailable()">卡萨维</span>
+            <span class="divider">|</span>
+            <span class="sub-item" onclick="showUnavailable()">南部</span>
+            <span class="divider">|</span>
+            <span class="sub-item" onclick="showUnavailable()">北部</span>
+            <span class="divider">|</span>
+            <span class="sub-item" onclick="showUnavailable()">中部</span>
+            <span class="divider">|</span>
+            <span class="sub-item" onclick="showUnavailable()">海外</span>
+            <span class="divider">|</span>
+            <span class="sub-item" onclick="showUnavailable()">深度报道</span>
+            <span class="divider">|</span>
+            <span class="sub-item" onclick="showUnavailable()">评论</span>
+        </div>
+
+        <!-- 新闻主体 -->
+        <div class="news-body">
+
+            <!-- 左栏 -->
+            <div class="main-content">
+
+                <!-- 头条 -->
+                <div class="headline-block">
+                    <div class="label">★ 头条</div>
+                    <h2>卡萨维13岁少年家中遇害 警方全力侦办</h2>
+                    <div class="sub">
+                        <p>2024年3月7日晚间，F国南部城市卡萨维，一名13岁少年在其住所内被发现死亡。警方初步判断为他杀，目前凶手仍在逃，尚未锁定嫌疑人。</p>
+                        <p>据警方通报，死者名为 <span class="hidden-link" onclick="switchToProfile()">郑■■</span>，男，13岁，就读于卡萨维第三中学。发现时间为3月7日晚19时47分，死者父母下班回家后发现孩子倒在客厅地板上，身旁有大面积血迹。急救人员到场时确认死亡。</p>
+                        <p>警方在案发现场提取到一枚弹壳，初步判断死因为<strong>枪击贯穿伤</strong>。现场无强行闯入痕迹，门窗完好，警方初步怀疑死者与凶手相识，案件性质正在进一步调查中。</p>
+                        <p>据了解，死者生前最后接触的人之一，是其同龄友人、现年12岁的 <span class="hidden-link" onclick="switchToParents()">金■■</span>。两人同校，关系密切，据同班同学反映，二人几乎每天都结伴放学。案发当日，金■■曾于14时32分向死者发送消息，内容为“我到了”，系死者手机中最后一条通讯记录。警方已对金■■进行初步询问，其称当日下午曾前往死者家中，停留约一小时后离开，离开时死者状态正常。目前警方尚未将其列为嫌疑人，但其证词与部分物证的初步比对仍在进行中。</p>
+                        <p>据邻居回忆，案发当日白天没有听到异常声响，死者性格安静，与同学关系一般。“他父母上班早出晚归，这孩子经常一个人在家。老实说，放学后他在屋里做什么，我们都不知道。”当被问及是否有朋友常来家中时，邻居表示：“有个小个子男生，偶尔会来，但也不常待很久。”</p>
+                        <p>死者所在学校教师表示，郑■■近一周情绪较为低落，但未透露具体原因。“他本来就是个话不多的孩子，我们也没多想。没想到……”</p>
+                        <p>死者家属关系方面，据了解，郑■■的父母均为现役军人，在地方驻军中服役。父亲<strong>郑英哲</strong>隶属于卡萨维驻军第三步兵营，母亲<strong>韩秀珍</strong>隶属于卡萨维驻军医疗分队。一年前（2023年2月），同属卡萨维驻军的金■■父母在一次街头武装冲突中双双殉职。该事件在卡萨维当地引起广泛关注。据校方透露，金■■在父母殉职后休学约三个月，直至2023年5月才返校复课。复课后，郑■■与金■■的关系一度十分亲近，同学称“■■那阵子几乎每天都陪着■■”，但近期两人之间似乎出现了一些距离。</p>
+                        <p>金■■本人暂未对媒体做出进一步回应。警方表示，对于网络和社区中流传的关于金■■父母的“旧案牵涉”等猜测，目前没有任何证据支持，请公众勿信谣传谣。</p>
+                        <p>目前，死者遗体已移交卡萨维法医中心进行详细尸检。警方呼吁知情人士提供线索，热线电话：<strong>0512-7747</strong>。</p>
+
+                        <!-- 尸检报告 -->
+                        <div style="margin-top:16px; background:#f8f8f8; padding:12px 16px; border-radius:4px; border-left:3px solid #cc0000;">
+                            <h4 style="font-size:16px; margin-bottom:6px;">尸检报告摘要</h4>
+                            <p style="font-size:13px; color:#666; margin-bottom:8px;">卡萨维法医中心 · 尸检报告编号：2024-0327</p>
+                            <table style="width:100%; border-collapse:collapse; font-size:13px; background:#fff; border:1px solid #ddd;">
+                                <tbody>
+                                    <tr><th style="background:#f0f0f0; padding:6px 10px; text-align:left; width:30%; border:1px solid #ddd;">死者姓名</th><td style="padding:6px 10px; border:1px solid #ddd;">郑■■（男，13岁）</td></tr>
+                                    <tr><th style="background:#f0f0f0; padding:6px 10px; text-align:left; border:1px solid #ddd;">死亡时间</th><td style="padding:6px 10px; border:1px solid #ddd;">推测为2024年3月7日15:00-17:00之间</td></tr>
+                                    <tr><th style="background:#f0f0f0; padding:6px 10px; text-align:left; border:1px solid #ddd;">死因</th><td style="padding:6px 10px; border:1px solid #ddd;"><strong>单发贯穿性枪伤，心脏破裂，失血性休克</strong></td></tr>
+                                    <tr><th style="background:#f0f0f0; padding:6px 10px; text-align:left; border:1px solid #ddd;">射入口</th><td style="padding:6px 10px; border:1px solid #ddd;">左胸第四肋间隙，距离体表约2-3cm</td></tr>
+                                    <tr><th style="background:#f0f0f0; padding:6px 10px; text-align:left; border:1px solid #ddd;">射出口</th><td style="padding:6px 10px; border:1px solid #ddd;">左肩胛骨外侧，未贯穿骨骼，弹头碎片嵌于软组织</td></tr>
+                                    <tr><th style="background:#f0f0f0; padding:6px 10px; text-align:left; border:1px solid #ddd;">射击距离</th><td style="padding:6px 10px; border:1px solid #ddd;"><strong>近距离射击（约0.5-1米），未见火药颗粒灼烧痕迹</strong></td></tr>
+                                    <tr><th style="background:#f0f0f0; padding:6px 10px; text-align:left; border:1px solid #ddd;">弹头类型</th><td style="padding:6px 10px; border:1px solid #ddd;">5.56mm，与军用或警用口径不符，疑似改装型民用枪械</td></tr>
+                                    <tr><th style="background:#f0f0f0; padding:6px 10px; text-align:left; border:1px solid #ddd;">体表伤</th><td style="padding:6px 10px; border:1px solid #ddd;">除枪伤外，右手掌有轻微擦伤，其余无明显外伤</td></tr>
+                                    <tr><th style="background:#f0f0f0; padding:6px 10px; text-align:left; border:1px solid #ddd;">毒理检测</th><td style="padding:6px 10px; border:1px solid #ddd;">未检出酒精、违禁药物</td></tr>
+                                    <tr><th style="background:#f0f0f0; padding:6px 10px; text-align:left; border:1px solid #ddd;">既往病史</th><td style="padding:6px 10px; border:1px solid #ddd;">无重大疾病记录</td></tr>
+                                    <tr><th style="background:#f4f4f4; padding:6px 10px; text-align:left; border:1px solid #ddd;">备注</th>
+                                        <td style="padding:6px 10px; border:1px solid #ddd; font-style:italic; color:#444;">
+                                            死者生前无挣扎迹象，推测在无防备状态下中枪。近距离射击但未见火药灼烧，可能中间有衣物遮挡或使用消音装置。案情疑点尚存，警方以他杀立案，移交刑侦队。
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- 调查进展 -->
+                        <div style="margin-top:16px;">
+                            <h4 style="font-size:16px; margin-bottom:6px;">调查进展（截至3月8日16:00）</h4>
+                            <ul style="list-style:none; padding-left:0; font-size:14px;">
+                                <li style="padding:4px 0; border-bottom:1px solid #f0f0f0; padding-left:20px; position:relative;">
+                                    <span style="position:absolute; left:0; color:#cc0000;">·</span> 死者父母已接受初步询问，无作案动机
+                                </li>
+                                <li style="padding:4px 0; border-bottom:1px solid #f0f0f0; padding-left:20px; position:relative;">
+                                    <span style="position:absolute; left:0; color:#cc0000;">·</span> 死者手机已送检，恢复近期通讯记录，发现最后一条消息为当日14:32，内容为“我到了”，发送对象未显示备注名
+                                </li>
+                                <li style="padding:4px 0; border-bottom:1px solid #f0f0f0; padding-left:20px; position:relative;">
+                                    <span style="position:absolute; left:0; color:#cc0000;">·</span> 未找到目击证人
+                                </li>
+                                <li style="padding:4px 0; border-bottom:1px solid #f0f0f0; padding-left:20px; position:relative;">
+                                    <span style="position:absolute; left:0; color:#cc0000;">·</span> 案发住宅监控因线路故障未正常工作
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- 本台评论 -->
+                        <div style="margin-top:16px; border-top:3px solid #1a1a1a; padding-top:12px;">
+                            <h4 style="font-size:16px; font-weight:700; margin-bottom:6px;">本台评论</h4>
+                            <p style="font-size:15px; background:#f7f7f7; padding:12px 16px; border-radius:4px; border-left:4px solid #1a1a1a;">
+                                <strong>一个13岁的孩子，在自己家中被杀。凶手是谁？为什么下手？F国每年有数十起因枪械泛滥导致的青少年伤亡，但我们是否已经麻木到只能等待下一个数字出现？</strong><br />
+                                <strong style="display:block; margin-top:6px;">当枪声成为日常，我们还能守住什么？</strong>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 双栏新闻 -->
+                <div class="news-grid">
+                    <div class="news-column">
+                        <div class="col-title">
+                            <span>要闻</span>
+                            <span class="more" onclick="showUnavailable()">更多 →</span>
+                        </div>
+                        <div class="news-list-item"><span class="hl">·</span> 卡萨维驻军加强安保，回应近期武装冲突 <span class="time">17:32</span></div>
+                        <div class="news-list-item"><span class="hl">·</span> F国议会通过新枪支管控法案草案 <span class="time">16:48</span></div>
+                        <div class="news-list-item"><span class="hl">·</span> 南部城市治安问题引民众担忧 <span class="time">15:20</span></div>
+                        <div class="news-list-item"><span class="hl">·</span> <span class="hidden-link" onclick="switchToParents()">金■■</span>父母殉职案一年后仍悬而未决 <span class="time">14:05</span></div>
+                        <div class="news-list-item"><span class="hl">·</span> 卡萨维第三中学为遇难学生举行追思会 <span class="time">12:30</span></div>
+                        <div class="news-list-item"><span class="hl">·</span> 军方公布2023年卡萨维冲突详细报告 <span class="time">11:15</span></div>
+                    </div>
+
+                    <div class="news-column">
+                        <div class="col-title">
+                            <span>社会·深度</span>
+                            <span class="more" onclick="showUnavailable()">更多 →</span>
+                        </div>
+                        <div class="news-list-item"><span class="hl">·</span> <span class="hidden-link" onclick="switchToProfile()">郑■■</span>同班同学：他最近情绪低落，很少说话 <span class="time">18:10</span></div>
+                        <div class="news-list-item"><span class="hl">·</span> 邻居回忆案发当日：没有听到异常声响 <span class="time">17:55</span></div>
+                        <div class="news-list-item"><span class="hl">·</span> 教师：郑■■与金■■近期关系出现疏远 <span class="time">17:02</span></div>
+                        <div class="news-list-item"><span class="hl">·</span> 警方辟谣：网传“旧案牵涉”无证据支持 <span class="time">16:10</span></div>
+                        <div class="news-list-item"><span class="hl">·</span> 心理专家：青少年创伤后行为变化需关注 <span class="time">15:40</span></div>
+                        <div class="news-list-item"><span class="hl">·</span> 卡萨维社区自发组织守夜活动 <span class="time">14:20</span></div>
+                    </div>
+                </div>
+
+                <!-- 专题/图片推荐 -->
+                <div class="feature-grid">
+                    <div class="feature-card" onclick="showUnavailable()">
+                        <div class="card-img">文件已损坏</div>
+                        <div class="card-label">专题</div>
+                        <div class="card-title">卡萨维命案全记录</div>
+                        <div class="card-desc">案件时间线 · 关键人物 · 调查进展</div>
+                    </div>
+                    <div class="feature-card" onclick="showUnavailable()">
+                        <div class="card-img">文件已损坏</div>
+                        <div class="card-label">图片</div>
+                        <div class="card-title">卡萨维第三中学</div>
+                        <div class="card-desc">校园日常 · 追思会现场</div>
+                    </div>
+                    <div class="feature-card" onclick="showUnavailable()">
+                        <div class="card-img">文件已损坏</div>
+                        <div class="card-label">视频</div>
+                        <div class="card-title">警方新闻发布会</div>
+                        <div class="card-desc">案件最新进展通报</div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- 右栏（侧边栏） -->
+            <div class="sidebar">
+
+                <!-- 热门排行 -->
+                <div class="side-block">
+                    <div class="block-title">📊 新闻排行</div>
+                    <div class="side-item"><span class="num">1</span><span class="text">卡萨维13岁少年遇害案引发关注</span></div>
+                    <div class="side-item"><span class="num">2</span><span class="text">F国议会通过新枪支管控法案</span></div>
+                    <div class="side-item"><span class="num">3</span><span class="text"><span class="hidden-link" onclick="switchToParents()">金■■</span>父母殉职案一年回顾</span></div>
+                    <div class="side-item"><span class="num">4</span><span class="text">南部城市治安问题引民众担忧</span></div>
+                    <div class="side-item"><span class="num">5</span><span class="text">卡萨维驻军加强安保措施</span></div>
+                </div>
+
+                <!-- 最新消息 -->
+                <div class="side-block">
+                    <div class="block-title">🕒 最新消息</div>
+                    <div class="side-item"><span class="tag">追踪</span><span class="text" onclick="showTrackEasterEgg()">死者父母均为现役军人，家庭背景引关注</span><span class="time-sm">18:20</span></div>
+                    <div class="side-item"><span class="tag">最新</span><span class="text" onclick="showUnavailable()">警方扩大搜索范围，调取周边监控</span><span class="time-sm">17:45</span></div>
+                    <div class="side-item"><span class="tag">评论</span><span class="text" onclick="showUnavailable()">当枪声成为日常，我们还能守住什么？</span><span class="time-sm">17:10</span></div>
+                    <div class="side-item"><span class="tag">快讯</span><span class="text" onclick="showUnavailable()">法医已完成初步尸检</span><span class="time-sm">16:30</span></div>
+                    <div class="side-item"><span class="tag">追踪</span><span class="text" onclick="showUnavailable()">学校心理辅导团队介入</span><span class="time-sm">15:50</span></div>
+                </div>
+
+                <!-- 相关推荐 -->
+                <div class="side-block">
+                    <div class="block-title">📌 相关推荐</div>
+                    <div class="side-item"><span class="text" onclick="showUnavailable()">▸ 2023年卡萨维驻军冲突事件回顾</span></div>
+                    <div class="side-item"><span class="text" onclick="showUnavailable()">▸ F国青少年枪击案件数据报告</span></div>
+                    <div class="side-item"><span class="text" onclick="showUnavailable()">▸ 军人家庭子女心理健康问题调查</span></div>
+                    <div class="side-item"><span class="text" onclick="showUnavailable()">▸ 卡萨维社区安全现状分析</span></div>
+                </div>
+
+                <!-- 存档提示 -->
+                <div class="archive-notice">
+                    <span>正在查看的是F国新闻<br>2024年3月8日的页面存档</span>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- 底部 -->
+        <div class="footer-bar">
+            <div class="links">
+                <a href="#" onclick="showUnavailable()">关于我们</a>
+                <a href="#" onclick="showUnavailable()">版权声明</a>
+                <a href="#" onclick="showUnavailable()">联系我们</a>
+                <a href="#" onclick="showUnavailable()">广告服务</a>
+                <a href="#" onclick="showUnavailable()">供稿服务</a>
+                <a href="#" onclick="showUnavailable()">隐私政策</a>
+            </div>
+            <div class="footer-right">
+                <span>© 2024 F国新闻 版权所有</span>
+                <span class="time-display" id="liveTime">加载中...</span>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- ===== 学生档案页面（郑■■） ===== -->
+    <!-- ============================================================ -->
+    <div class="page profile-card" id="profilePage">
+        <span class="back-link" onclick="switchToNews()">← 返回新闻</span>
+
+        <div class="profile-inner">
+            <div class="school-header">
+                <span class="badge">学生档案</span>
+                <h2>卡萨维第三中学</h2>
+                <span class="system-tag">内部系统</span>
+            </div>
+
+            <div class="profile-nav" id="profileNav">
+                <span class="nav-item active" onclick="profileNavClick(this)">首页</span>
+                <span class="divider">｜</span>
+                <span class="nav-item" onclick="profileNavClick(this)">学生天地</span>
+                <span class="divider">｜</span>
+                <span class="nav-item" onclick="profileNavClick(this)">教学管理</span>
+                <span class="divider">｜</span>
+                <span class="nav-item" onclick="profileNavClick(this)">校园服务</span>
+                <span class="divider">｜</span>
+                <span class="nav-item" onclick="profileNavClick(this)">个人中心</span>
+            </div>
+
+            <div class="student-id-row">
+                <span><strong>学号：</strong>KSA-2021-0732</span>
+                <span><strong>入学年份：</strong>2021</span>
+                <span><strong>状态：</strong><span style="color:#b8860b;">■ 休学中</span></span>
+            </div>
+
+            <div class="info-grid">
+                <div class="item"><span class="label">姓名</span><span class="value">郑■■</span></div>
+                <div class="item"><span class="label">性别</span><span class="value">男</span></div>
+                <div class="item"><span class="label">出生日期</span><span class="value">2011.02.18</span></div>
+                <div class="item"><span class="label">班级</span><span class="value">初二（3）班</span></div>
+                <div class="item"><span class="label">班主任</span><span class="value">李■■</span></div>
+                <div class="item"><span class="label">家庭住址</span><span class="value">卡萨维市 安和路 17号</span></div>
+                <div class="item"><span class="label">监护人（父）</span><span class="value">郑英哲 · 现役（第三步兵营）</span></div>
+                <div class="item"><span class="label">监护人（母）</span><span class="value">韩秀珍 · 现役（医疗分队）</span></div>
+                <div class="item"><span class="label">紧急联系人</span><span class="value"><span class="hidden-link" onclick="switchToParents()">金■■ · 同学</span></span></div>
+                <div class="item"><span class="label">入档日期</span><span class="value">2021.09.01</span></div>
+                <div class="item"><span class="label">联系电话</span><span class="value">0512-7477</span></div>
+                <div class="item"><span class="label">电子邮箱</span><span class="value">zheng2011@school.fg</span></div>
+                <div class="item"><span class="label">健康状况</span><span class="value">良好</span></div>
+                <div class="item"><span class="label">住宿情况</span><span class="value">走读</span></div>
+            </div>
+
+            <div class="section-title">学期课程（2024春季）</div>
+            <table class="course-table">
+                <thead><tr><th>课程</th><th>教师</th><th>时间</th><th>教室</th></tr></thead>
+                <tbody>
+                    <tr><td>文学</td><td>安■</td><td>周一 1-2节</td><td>A301</td></tr>
+                    <tr><td>数学</td><td>和■</td><td>周二 3-4节</td><td>A302</td></tr>
+                    <tr><td>历史</td><td>吴■</td><td>周三 1-2节</td><td>B201</td></tr>
+                    <tr><td>科学</td><td>李■</td><td>周四 5-6节</td><td>实验室2</td></tr>
+                    <tr><td>体育</td><td>崔■</td><td>周五 7-8节</td><td>操场</td></tr>
+                </tbody>
+            </table>
+
+            <div class="section-title">校园通知</div>
+            <ul class="notice-list">
+                <li>2024年3月1日：本学期第一次月考安排已发布，请同学们做好准备。</li>
+                <li>2024年2月25日：校园安全讲座将于3月5日下午举行，全体学生参加。</li>
+                <li>2024年2月20日：图书馆新进一批文学类书籍，欢迎借阅。</li>
+                <li>2024年2月15日：春季运动会报名通道已开启，请各班体委组织报名。</li>
+            </ul>
+
+            <div class="section-title">教师备注</div>
+            <div class="bio-text">
+                郑■■同学性格安静，学习认真，与同学相处融洽。父母均为现役军人，父亲郑英哲、母亲韩秀珍常年驻守，该生自理能力较强。<br />
+                本学期以来情绪略有低落，但仍能保持学业稳定。建议家校加强沟通。<br />
+                <span style="color:#888; font-size:13px;">—— 班主任 李■■ · 2024.02.28</span>
+            </div>
+
+            <div class="footer-note">
+                数据更新于 2024.03.01 · 系统版本 2.4.1
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- ===== 父母案新闻页面（2023年） ===== -->
+    <!-- ============================================================ -->
+    <div class="page parents-news" id="parentsPage">
+        <span class="back-link" onclick="switchToNews()" style="display:inline-block;margin:16px 32px 0 32px;font-size:14px;color:#1a3c6e;cursor:pointer;border-bottom:1px solid transparent;transition:border-color 0.2s;">← 返回新闻</span>
+
+        <div class="header" style="padding:14px 32px 10px 32px;">
+            <div class="logo-area">
+                <span class="red-dot"></span>
+                <h1 style="font-size:32px;"><span>F</span>国新闻</h1>
+            </div>
+            <div class="header-right">
+                <span class="date">2023年2月13日 · 星期一</span>
+                <span class="weather">🌧️ 卡萨维 8°C</span>
+            </div>
+        </div>
+
+        <div class="main-nav" id="parentsNav" style="padding:0 32px;">
+            <span class="nav-item active" onclick="parentsNavClick(this)">要闻</span>
+            <span class="divider">|</span>
+            <span class="nav-item" onclick="parentsNavClick(this)">社会</span>
+            <span class="divider">|</span>
+            <span class="nav-item" onclick="parentsNavClick(this)">国际</span>
+            <span class="divider">|</span>
+            <span class="nav-item" onclick="parentsNavClick(this)">财经</span>
+            <span class="divider">|</span>
+            <span class="nav-item" onclick="parentsNavClick(this)">战事</span>
+            <span class="divider">|</span>
+            <span class="nav-item" onclick="parentsNavClick(this)">法治</span>
+            <span class="divider">|</span>
+            <span class="nav-item" onclick="parentsNavClick(this)">健康</span>
+            <span class="nav-more" onclick="parentsNavClick(this)">更多↓</span>
+        </div>
+
+        <div class="sub-nav">
+            <span class="sub-item active" onclick="parentsNavClick(this)">卡萨维</span>
+            <span class="divider">|</span>
+            <span class="sub-item" onclick="parentsNavClick(this)">南部</span>
+            <span class="divider">|</span>
+            <span class="sub-item" onclick="parentsNavClick(this)">军事</span>
+            <span class="divider">|</span>
+            <span class="sub-item" onclick="parentsNavClick(this)">社会</span>
+        </div>
+
+        <div class="news-body">
+            <div class="main-content">
+                <div class="headline-block" style="border-left-color:#cc0000;">
+                    <div class="label">★ 头条</div>
+                    <h2>卡萨维街头武装冲突致两名军人殉职</h2>
+                    <div class="sub">
+                        <p>2023年2月13日下午，F国南部城市卡萨维发生严重武装冲突，两名现役军人殉职。殉职军人系 <strong>金■■上士</strong> 与 <strong>金■■中士</strong>（夫妇）。其子 <strong>金■■</strong>（时年11岁）及友人 <strong>郑■■</strong> 当时在场。</p>
+                        <p>军方表示，此次袭击为有预谋的武装挑衅，目前尚未有组织宣称负责。警方已调取周边监控，并对弹道痕迹进行比对，案件仍在调查中。</p>
+                        <p style="margin-top:12px; font-size:14px; color:#888;">相关报道：<span class="hidden-link" onclick="switchToNews()">一年后 · 卡萨维13岁少年遇害案</span></p>
+                    </div>
+                </div>
+
+                <div class="news-grid">
+                    <div class="news-column">
+                        <div class="col-title">
+                            <span>要闻</span>
+                            <span class="more" onclick="parentsNavClick(this)">更多 →</span>
+                        </div>
+                        <div class="news-list-item"><span class="hl">·</span> 两名殉职军人追悼仪式举行 <span class="time">18:20</span></div>
+                        <div class="news-list-item"><span class="hl">·</span> 金■■之子暂由亲属照顾 <span class="time">17:10</span></div>
+                        <div class="news-list-item"><span class="hl">·</span> 市长：将加强卡萨维安保措施 <span class="time">16:00</span></div>
+                        <div class="news-list-item"><span class="hl">·</span> 目击者回忆冲突现场 <span class="time">14:50</span></div>
+                        <div class="news-list-item"><span class="hl">·</span> 军方公布初步调查结果 <span class="time">13:30</span></div>
+                    </div>
+                    <div class="news-column">
+                        <div class="col-title">
+                            <span>社会·评论</span>
+                            <span class="more" onclick="parentsNavClick(this)">更多 →</span>
+                        </div>
+                        <div class="news-list-item"><span class="hl">·</span> 两名军人的生命，在街头交火中戛然而止 <span class="time">19:00</span></div>
+                        <div class="news-list-item"><span class="hl">·</span> 他们的孩子就在现场，目睹了这一切 <span class="time">18:40</span></div>
+                        <div class="news-list-item"><span class="hl">·</span> 枪声夺走了父母，也夺走了一个孩子的安全感 <span class="time">18:10</span></div>
+                        <div class="news-list-item"><span class="hl">·</span> 暴力留下的裂痕，会在代际中延续 <span class="time">17:30</span></div>
+                        <div class="news-list-item"><span class="hl">·</span> 社区发起对军人家庭的支持行动 <span class="time">16:50</span></div>
+                    </div>
+                </div>
+
+                <div class="feature-grid" style="grid-template-columns:1fr 1fr;">
+                    <div class="feature-card" onclick="parentsNavClick(this)">
+                        <div class="card-img">文件已损坏</div>
+                        <div class="card-label">专题</div>
+                        <div class="card-title">2023卡萨维冲突回顾</div>
+                        <div class="card-desc">事件全记录 · 后续影响</div>
+                    </div>
+                    <div class="feature-card" onclick="parentsNavClick(this)">
+                        <div class="card-img">文件已损坏</div>
+                        <div class="card-label">评论</div>
+                        <div class="card-title">暴力从不只伤害直接目标</div>
+                        <div class="card-desc">一个孩子眼中的战场</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 父母案侧边栏 -->
+            <div class="sidebar">
+                <div class="side-block">
+                    <div class="block-title">📊 相关排行</div>
+                    <div class="side-item"><span class="num">1</span><span class="text">卡萨维武装冲突致军人殉职</span></div>
+                    <div class="side-item"><span class="num">2</span><span class="text">军方承诺加强安保措施</span></div>
+                    <div class="side-item"><span class="num">3</span><span class="text"><span class="hidden-link" onclick="switchToNews()">一年后 · 13岁少年遇害案</span></span></div>
+                    <div class="side-item"><span class="num">4</span><span class="text">市民自发悼念殉职军人</span></div>
+                </div>
+
+                <div class="side-block">
+                    <div class="block-title">🕒 最新进展</div>
+                    <div class="side-item"><span class="tag">追踪</span><span class="text" onclick="showParentsTrackEasterEgg()">警方调取监控，弹道痕迹比对中</span><span class="time-sm">18:30</span></div>
+                    <div class="side-item"><span class="tag">最新</span><span class="text" onclick="parentsNavClick(this)">军方：袭击为有预谋武装挑衅</span><span class="time-sm">17:50</span></div>
+                    <div class="side-item"><span class="tag">评论</span><span class="text" onclick="parentsNavClick(this)">暴力从不只伤害直接目标</span><span class="time-sm">17:00</span></div>
+                    <div class="side-item"><span class="tag">快讯</span><span class="text" onclick="parentsNavClick(this)">目击者提供新线索</span><span class="time-sm">16:20</span></div>
+                </div>
+
+                <!-- 存档提示（父母案页面） -->
+                <div class="archive-notice">
+                    <span>正在查看的是F国新闻<br>2024年3月8日的页面存档</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bar" style="padding:12px 32px;">
+            <div class="links">
+                <a href="#" onclick="parentsNavClick(this)">关于我们</a>
+                <a href="#" onclick="parentsNavClick(this)">版权声明</a>
+                <a href="#" onclick="parentsNavClick(this)">联系我们</a>
+            </div>
+            <div class="footer-right">
+                <span>© 2023 F国新闻 版权所有</span>
+                <span class="time-display" id="parentsTime">加载中...</span>
+            </div>
+        </div>
+
+        <div id="parentsPopupContainer"></div>
+    </div>
+
+</div>
+
+<script>
+    // =============================================================
+    // 工具函数
+    // =============================================================
+    function showUnavailable() {
+        alert("此页面无法显示");
+    }
+
+    // ===== 主新闻页追踪彩蛋 =====
+    function showTrackEasterEgg() {
+        alert("你的每一个脚印，都逃不过我的眼睛……嘻嘻。");
+    }
+
+    // ===== 父母案页追踪彩蛋 =====
+    function showParentsTrackEasterEgg() {
+        if (parentsTriggered) {
+            alert("你杀了他");
+        } else {
+            alert("你的每一个脚印，都逃不过我的眼睛……嘻嘻。");
+        }
+    }
+
+    // =============================================================
+    // 实时时间
+    // =============================================================
+    function updateTime() {
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const t = year + '-' + month + '-' + day + ' ' + hours + ':' + minutes;
+
+        const live = document.getElementById('liveTime');
+        if (live) live.textContent = '当前时间 ' + t;
+
+        const p = document.getElementById('parentsTime');
+        if (p) p.textContent = '当前时间 ' + t;
+
+        const headerDate = document.getElementById('headerDate');
+        if (headerDate) headerDate.textContent = '2024年3月8日 · 星期六';
+    }
+    updateTime();
+    setInterval(updateTime, 10000);
+
+    // =============================================================
+    // 页面切换
+    // =============================================================
+    function switchToProfile() {
+        hideAll();
+        document.getElementById('newsPage').classList.remove('visible');
+        document.getElementById('profilePage').classList.add('visible');
+        startProfileCorruption();
+    }
+
+    function switchToParents() {
+        clearProfileCorruption();
+        hideAll();
+        document.getElementById('newsPage').classList.remove('visible');
+        document.getElementById('parentsPage').classList.add('visible');
+        startParentsEasterEgg();
+    }
+
+    function switchToNews() {
+        clearProfileCorruption();
+        clearParentsEasterEgg();
+        hideAll();
+        document.getElementById('newsPage').classList.add('visible');
+    }
+
+    function hideAll() {
+        document.getElementById('newsPage').classList.remove('visible');
+        document.getElementById('profilePage').classList.remove('visible');
+        document.getElementById('parentsPage').classList.remove('visible');
+    }
+
+    // =============================================================
+    // 学生档案 - 诅咒
+    // =============================================================
+    let profileCurseActive = false;
+    let profileTimer = null;
+    let profileInterval = null;
+
+    const curseWords = [
+        "伪善者", "该死", "装模作样", "罪有应得",
+        "渣滓", "畜生", "恶有恶报", "全都是假的",
+        "你笑什么", "你从来不真诚", "你配吗",
+        "伪善", "伪善", "伪善", "满口谎言",
+        "死不足惜", "死不足惜", "死不足惜",
+        "从来没有真正关心过任何人", "只是在表演", "只是在骗自己",
+        "终于死了", "终于安静了", "替你高兴",
+        "你以为你是受害者？", "你是那个加害者",
+        "你毁了一切", "活该", "活该", "活该",
+        "懦夫", "骗子", "垃圾", "不配活着",
+        "你的笑都是假的", "你的眼泪也是假的",
+        "没有人会记得你", "没有人会在乎你",
+        "你永远无法被原谅", "你永远无法被宽恕",
+        "这是你应得的", "这是你自找的",
+        "郑■■", "金■■", "那天", "那一枪",
+        "你逃不掉", "你躲不了", "你跑不远的",
+        "我记得所有事", "我什么都没忘",
+        "你欠我的", "你欠所有人的"
+    ];
+
+    function getRandomCurse() {
+        return curseWords[Math.floor(Math.random() * curseWords.length)];
+    }
+
+    function clearProfileCorruption() {
+        document.body.classList.remove('profile-corrupted');
+        if (profileTimer) { clearTimeout(profileTimer);
+            profileTimer = null; }
+        if (profileInterval) { clearInterval(profileInterval);
+            profileInterval = null; }
+        profileCurseActive = false;
+    }
+
+    function startProfileCorruption() {
+        if (profileCurseActive) return;
+        clearProfileCorruption();
+        profileCurseActive = false;
+        document.body.classList.remove('profile-corrupted');
+
+        profileTimer = setTimeout(function() {
+            if (profileCurseActive) return;
+            profileCurseActive = true;
+            document.body.classList.add('profile-corrupted');
+            replaceProfileTextWithCurse();
+
+            if (profileInterval) clearInterval(profileInterval);
+            profileInterval = setInterval(function() {
+                if (document.body.classList.contains('profile-corrupted')) {
+                    replaceProfileTextWithCurse();
+                }
+            }, 3000);
+
+            profileTimer = null;
+        }, 30000);
+
+        function resetProfileTimer() {
+            if (profileCurseActive) return;
+            if (profileTimer) { clearTimeout(profileTimer);
+                profileTimer = null; }
+            profileTimer = setTimeout(function() {
+                if (profileCurseActive) return;
+                profileCurseActive = true;
+                document.body.classList.add('profile-corrupted');
+                replaceProfileTextWithCurse();
+                if (profileInterval) clearInterval(profileInterval);
+                profileInterval = setInterval(function() {
+                    if (document.body.classList.contains('profile-corrupted')) {
+                        replaceProfileTextWithCurse();
+                    }
+                }, 3000);
+                profileTimer = null;
+            }, 30000);
+        }
+
+        const pp = document.getElementById('profilePage');
+        pp.addEventListener('click', resetProfileTimer);
+        pp.addEventListener('touchstart', resetProfileTimer);
+        pp.addEventListener('keydown', resetProfileTimer);
+    }
+
+    function replaceProfileTextWithCurse() {
+        const walker = document.createTreeWalker(
+            document.body,
+            NodeFilter.SHOW_TEXT, {
+                acceptNode: function(node) {
+                    const parent = node.parentElement;
+                    if (!parent) return NodeFilter.FILTER_REJECT;
+                    const tag = parent.tagName.toLowerCase();
+                    if (tag === 'script' || tag === 'style' || tag === 'title') return NodeFilter
+                        .FILTER_REJECT;
+                    if (parent.closest && (parent.closest('.hidden-link') || parent.closest('.nav-item') ||
+                            parent.closest('.back-link') || parent.closest('.main-nav .nav-item') ||
+                            parent.closest('.sub-nav .sub-item') ||
+                            parent.closest('.profile-nav .nav-item'))) {
+                        return NodeFilter.FILTER_REJECT;
+                    }
+                    if (node.textContent.trim().length === 0) return NodeFilter.FILTER_REJECT;
+                    return NodeFilter.FILTER_ACCEPT;
+                }
+            }
+        );
+        const nodes = [];
+        let node;
+        while (node = walker.nextNode()) nodes.push(node);
+        nodes.forEach(function(tn) {
+            const trimmed = tn.textContent.trim();
+            if (/^\d+$/.test(trimmed) || /^[\.\,\、\。\-\—\:：\；\、]+$/.test(trimmed)) return;
+            if (trimmed.length < 2) return;
+            let curseText = '';
+            const wordCount = Math.max(3, Math.floor(trimmed.length / 2));
+            for (let i = 0; i < wordCount; i++) {
+                curseText += getRandomCurse() + ' ';
+                if (i % 3 === 2) curseText += '· ';
+            }
+            tn.textContent = curseText.trim();
+        });
+    }
+
+    function profileNavClick(el) {
+        if (el.classList.contains('active')) return;
+        if (profileCurseActive) {
+            alert(getRandomCurse());
+        } else {
+            alert("此页面无法显示");
+        }
+    }
+
+    // =============================================================
+    // 父母案 - 彩蛋
+    // =============================================================
+    let parentsPopupCount = 0;
+    let parentsPopupTimer = null;
+    let parentsEasterEggActive = false;
+    let parentsTriggered = false;
+    let parentsRemoveTimer = null;
+
+    function createParentsPopup() {
+        if (parentsTriggered) return;
+        const container = document.getElementById('parentsPopupContainer');
+        if (!container) return;
+
+        const popup = document.createElement('div');
+        popup.className = 'parents-popup';
+        const x = Math.random() * 80 + 10;
+        const y = Math.random() * 80 + 10;
+        popup.style.top = y + 'vh';
+        popup.style.left = x + 'vw';
+        popup.style.transform = 'translate(-50%, -50%)';
+
+        const text = document.createElement('span');
+        text.textContent = '你杀了他';
+        popup.appendChild(text);
+
+        const closeBtn = document.createElement('button');
+        closeBtn.className = 'close-btn';
+        closeBtn.textContent = '✕';
+        closeBtn.setAttribute('aria-label', '关闭');
+        popup.appendChild(closeBtn);
+
+        closeBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            if (parentsTriggered) return;
+            parentsPopupCount++;
+            if (parentsPopupCount >= 30) {
+                triggerParentsCurse();
+            } else {
+                createParentsPopup();
+            }
+        });
+
+        container.appendChild(popup);
+    }
+
+    function replaceParentsTextWithKill() {
+        const walker = document.createTreeWalker(
+            document.body,
+            NodeFilter.SHOW_TEXT, {
+                acceptNode: function(node) {
+                    const parent = node.parentElement;
+                    if (!parent) return NodeFilter.FILTER_REJECT;
+                    const tag = parent.tagName.toLowerCase();
+                    if (tag === 'script' || tag === 'style' || tag === 'title') return NodeFilter
+                        .FILTER_REJECT;
+                    if (parent.closest && (parent.closest('.parents-popup') ||
+                            parent.closest('#parentsPopupContainer') ||
+                            parent.closest('.parents-popup .close-btn'))) {
+                        return NodeFilter.FILTER_REJECT;
+                    }
+                    return NodeFilter.FILTER_ACCEPT;
+                }
+            }
+        );
+        const nodes = [];
+        let node;
+        while (node = walker.nextNode()) {
+            nodes.push(node);
+        }
+        nodes.forEach(function(tn) {
+            tn.textContent = '你杀了他';
+        });
+    }
+
+    function triggerParentsCurse() {
+        if (parentsTriggered) return;
+        parentsTriggered = true;
+        document.body.style.backgroundColor = '#8b0000';
+        document.querySelectorAll('.parents-popup .close-btn').forEach(function(btn) {
+            btn.style.pointerEvents = 'none';
+            btn.style.opacity = '0.3';
+        });
+        replaceParentsTextWithKill();
+
+        if (parentsRemoveTimer) clearInterval(parentsRemoveTimer);
+        parentsRemoveTimer = setInterval(function() {
+            const container = document.getElementById('parentsPopupContainer');
+            if (!container) return;
+            const firstPopup = container.querySelector('.parents-popup');
+            if (firstPopup) {
+                firstPopup.remove();
+            } else {
+                clearInterval(parentsRemoveTimer);
+                parentsRemoveTimer = null;
+            }
+        }, 500);
+    }
+
+    function startParentsEasterEgg() {
+        clearParentsEasterEgg();
+
+        parentsPopupCount = 0;
+        parentsTriggered = false;
+        parentsEasterEggActive = true;
+        document.body.style.backgroundColor = '';
+        const container = document.getElementById('parentsPopupContainer');
+        if (container) container.innerHTML = '';
+
+        parentsPopupTimer = setTimeout(function() {
+            if (!parentsEasterEggActive) return;
+            parentsPopupCount = 1;
+            createParentsPopup();
+        }, 15000);
+    }
+
+    function clearParentsEasterEgg() {
+        parentsEasterEggActive = false;
+        if (parentsPopupTimer) {
+            clearTimeout(parentsPopupTimer);
+            parentsPopupTimer = null;
+        }
+        if (parentsRemoveTimer) {
+            clearInterval(parentsRemoveTimer);
+            parentsRemoveTimer = null;
+        }
+        const container = document.getElementById('parentsPopupContainer');
+        if (container) container.innerHTML = '';
+        document.body.style.backgroundColor = '';
+        parentsTriggered = false;
+        parentsPopupCount = 0;
+    }
+
+    function parentsNavClick(el) {
+        if (el.classList && el.classList.contains('active')) return;
+        if (parentsTriggered) {
+            alert("你杀了他");
+        } else {
+            alert("此页面无法显示");
+        }
+    }
+
+    // DOM 事件绑定
+    document.addEventListener('DOMContentLoaded', function() {
+        // 父母案页面
+        const parentsPage = document.getElementById('parentsPage');
+        if (parentsPage) {
+            const clickables = parentsPage.querySelectorAll(
+                '.side-item, .more, .news-list-item, .links a, .header .date, .logo-area, .search-box button, .nav-more, .main-nav .nav-item, .sub-nav .sub-item, .feature-card'
+                );
+            clickables.forEach(function(el) {
+                if (el.classList && el.classList.contains('hidden-link')) return;
+                el.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    if (parentsTriggered) {
+                        alert("你杀了他");
+                    } else {
+                        alert("此页面无法显示");
+                    }
+                });
+            });
+        }
+
+        // 主新闻页面
+        const newsPage = document.getElementById('newsPage');
+        if (newsPage) {
+            const clickables = newsPage.querySelectorAll(
+                '.side-item, .more, .news-list-item, .links a, .header .date, .logo-area, .search-box button, .nav-more, .feature-card, .sub-nav .sub-item'
+                );
+            clickables.forEach(function(el) {
+                if (el.classList && el.classList.contains('hidden-link')) return;
+                el.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    showUnavailable();
+                });
+            });
+        }
+    });
+
+    // =============================================================
+    // 搜索框彩蛋
+    // =============================================================
+    function handleSearch() {
+        const input = document.getElementById('searchInput');
+        if (!input) return;
+        const query = input.value.trim();
+        if (query === '') return;
+
+        const searchMap = {
+            '烟花': '嘿、嘿！你、你看到我了吗？我、我在这里！',
+            '烟花蛋': '嘿、嘿！你、你看到我了吗？我、我在这里！',
+            '花闪闪': '我、我、我不是…是、是爆炸……好、好怕',
+            '剑仙': '哼，想当年本剑仙一剑斩尽天下恶徒——啊，这段往事说来话长……改日再叙！',
+            '剑仙蛋': '哼，想当年本剑仙一剑斩尽天下恶徒——啊，这段往事说来话长……改日再叙！',
+            '灵韵': '你、你该不会…没听说过本剑仙的威名吧？……',
+            '云飞': '你、你该不会…没听说过本剑仙的威名吧？……',
+            '爆破': '你听到爆炸声了吗？',
+            '爆破蛋': '你听到爆炸声了吗？',
+            '轰咚': '别…别过来…我听、听到了…那声音又来了…',
+            '突击': '这个世界糟透了。',
+            '突击蛋': '这个世界糟透了。',
+            '突拉拉': '这个世界本来就是黑的。你只是在假装看不见而已。',
+            '泰坦': '你…你也是他们派来的吗？',
+            '泰坦蛋': '你…你也是他们派来的吗？',
+            '泰小坦': '你想—监视我？控制我？我…我不会上当的……',
+            '医疗': '医生？他们都是骗子。',
+            '医疗蛋': '医生？他们都是骗子。',
+            '伊伊': '医生？呵呵…你相信他们吗？我可不信。',
+            '工匠': '胜利就是一切。',
+            '工匠蛋': '胜利就是一切。',
+            '乔泽': '弱者不配活着。你也是。',
+            '身法': '……别多问。',
+            '身法蛋': '……我不知道你想说什么。让开。'
+        };
+
+        const cleanQuery = query.replace(/\s/g, '');
+        if (searchMap[query] !== undefined) {
+            alert(searchMap[query]);
+        } else if (searchMap[cleanQuery] !== undefined) {
+            alert(searchMap[cleanQuery]);
+        }
+        // 不匹配时无任何弹窗
+    }
+</script>
+
+</body>
+</html>
